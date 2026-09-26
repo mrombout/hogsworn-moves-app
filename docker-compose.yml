@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  hogsworn-moves:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: hogsworn-moves
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    environment:
+      - NODE_ENV=production

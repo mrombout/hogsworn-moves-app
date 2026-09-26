@@ -1,0 +1,23 @@
+{
+  "name": "hogsworn-moves-app",
+  "version": "1.0.0",
+  "description": "Single-page application for Hogsworn / Ironsworn TTRPG moves",
+  "scripts": {
+    "build": "node build.js",
+    "start": "node serve.js",
+    "dev": "node build.js && node serve.js"
+  },
+  "keywords": [
+    "hogsworn",
+    "ironsworn",
+    "ttrpg",
+    "harry-potter",
+    "moves"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "js-yaml": "^5.4.2",
+    "marked": "^18.0.14"
+  }
+}

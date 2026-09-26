@@ -1,0 +1,1950 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hogsworn Moves | Hogwarts TTRPG Rulebook & Reference</title>
+  <meta name="description" content="Quick-reference single-page app for all Hogsworn and Ironsworn TTRPG moves. Search, roll dice, and refer to rules at the table.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Fira+Code:wght@500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!-- Sticky Header -->
+  <header class="header-wrapper">
+    <div class="header-container">
+      <a href="#" class="brand">
+        <div class="brand-icon">⚡</div>
+        <div class="brand-text">
+          <h1>Hogsworn</h1>
+          <p>Hogwarts TTRPG Moves Compendium</p>
+        </div>
+      </a>
+
+      <div class="header-actions">
+        <button type="button" class="action-btn dice-toggle-btn" id="dice-toggle-btn" title="Open Dice Roller (D)">
+          🎲 <span class="btn-text">Dice Roller</span>
+        </button>
+        <button type="button" class="action-btn" id="expand-all-btn" title="Expand or Collapse All Cards">
+          ⊟ <span class="btn-text">Collapse All</span>
+        </button>
+        <button type="button" class="action-btn" id="layout-toggle-btn" title="Toggle Compact / Full Cards">
+          ⊞ <span class="btn-text">Compact</span>
+        </button>
+        <button type="button" class="action-btn" id="theme-toggle-btn" title="Toggle Dark / Parchment Theme">
+          ☀️ <span class="btn-text">Light</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Filter & Search Toolbar -->
+  <section class="toolbar-section">
+    <!-- Search Bar -->
+    <div class="search-wrapper">
+      <span class="search-icon">🔍</span>
+      <input type="text" class="search-input" id="search-input" placeholder="Search moves by title, roll, trigger, or rules (e.g. 'danger', 'potion', '+heart')..." autocomplete="off" spellcheck="false">
+      <button type="button" class="search-clear-btn" id="search-clear" title="Clear search">×</button>
+      <span class="search-shortcut">/</span>
+    </div>
+
+    <!-- Category Filter Tabs -->
+    <nav class="category-tabs" aria-label="Category Filters">
+      <button type="button" class="cat-tab active" data-category="all">✨ All Moves <span class="tab-badge">47</span></button>
+<button type="button" class="cat-tab" data-category="adventure">🧭 Adventure <span class="tab-badge">15</span></button>
+<button type="button" class="cat-tab" data-category="combat">⚔️ Combat <span class="tab-badge">7</span></button>
+<button type="button" class="cat-tab" data-category="life">🏰 Hogwarts Life <span class="tab-badge">1</span></button>
+<button type="button" class="cat-tab" data-category="quest">📜 Quests & Mysteries <span class="tab-badge">3</span></button>
+<button type="button" class="cat-tab" data-category="relationship">🤝 Relationships <span class="tab-badge">6</span></button>
+<button type="button" class="cat-tab" data-category="scene_challenge">⏳ Scene Challenge <span class="tab-badge">5</span></button>
+<button type="button" class="cat-tab" data-category="suffer">💔 Suffer & Harm <span class="tab-badge">8</span></button>
+<button type="button" class="cat-tab" data-category="fate">🔮 Fate & Oracle <span class="tab-badge">2</span></button>
+    </nav>
+
+    <!-- Secondary Filters Bar -->
+    <div class="secondary-filters">
+      <div style="display: flex; gap: 0.6rem; flex-wrap: wrap;">
+        <!-- Audience Filter -->
+        <div class="filter-group">
+          <span class="filter-label">Audience:</span>
+          <button type="button" class="filter-pill pill-audience active" data-audience="all">All</button>
+          <button type="button" class="filter-pill pill-audience" data-audience="player">Player</button>
+          <button type="button" class="filter-pill pill-audience" data-audience="guide">Guide</button>
+        </div>
+
+        <!-- Type Filter -->
+        <div class="filter-group">
+          <span class="filter-label">Type:</span>
+          <button type="button" class="filter-pill pill-type active" data-type="all">All</button>
+          <button type="button" class="filter-pill pill-type" data-type="action">Action</button>
+          <button type="button" class="filter-pill pill-type" data-type="reaction">Reaction</button>
+        </div>
+      </div>
+
+      <div class="view-controls">
+        <button type="button" class="action-btn" id="filter-pinned-btn" title="Show only pinned moves">
+          ⭐ Pinned (<span id="pinned-count">0</span>)
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Status Bar -->
+  <div class="status-bar">
+    <span id="results-count">Showing 47 of 47 moves</span>
+    <button type="button" class="reset-filters-btn" id="reset-filters-btn">↺ Reset Filters</button>
+  </div>
+
+  <!-- Pinned Moves Section -->
+  <section class="pinned-section" id="pinned-section">
+    <div class="pinned-header">
+      <span>⭐ Pinned Quick-Reference Moves</span>
+    </div>
+    <div class="pinned-grid" id="pinned-grid"></div>
+  </section>
+
+  <!-- Main Moves Container -->
+  <main class="main-container" id="main-container">
+    
+    <section class="category-group" id="cat-group-adventure" data-category="adventure">
+      <div class="category-header">
+        <h2>🧭 Adventure</h2>
+        <span class="category-desc">Exploration, spellcasting, study, and dangerous encounters around Hogwarts and beyond.</span>
+        <span class="category-count">15 moves</span>
+      </div>
+      <div class="moves-grid">
+        
+    <article class="move-card" id="adventure-advance-time" data-category="adventure" data-audience="guide" data-type="reaction" data-search-text="advance time adventure guide reaction this is the progress roll for the time track, momentum is ignored on this roll. when the track reaches 10, prepare to make this roll. move on to a new time track. on a **strong hit**, pick two, on a **weak hit**, pick one: - gain +2 health, +2 spirit, or +2 reputation. - remove a debility and take +1 health, spirit, or reputation. - mark 1 spell in each category from your year as known. - gain 1 xp. - on a **mis**, pay the price ↗ . you have a wretched time in hogwarts, something troubles you... todo: button that rolls +0, then offers the choices.">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Advance Time</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="adventure">🧭 Adventure</span>
+            <span class="badge badge-reaction">reaction</span>
+            <span class="badge badge-audience">guide</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p>This is the progress roll for the Time track, momentum is ignored on this roll.</p>
+<p class="move-trigger">When the track reaches 10, prepare to make this roll.
+Move on to a new Time Track.</p>
+<div class="outcome-block outcome-strong"><p>On a <strong>strong hit</strong>, pick two, on a <strong>weak hit</strong>, pick one:</p>
+<ul>
+<li>Gain +2 health, +2 spirit, or +2 reputation.</li>
+<li>Remove a debility and take +1 health, spirit, or reputation.</li>
+<li>Mark 1 spell in each category from your year as known.</li>
+<li>Gain 1 XP.</li>
+<li>On a <strong>mis</strong>, <a href="#fate-pay-the-price" class="move-ref-link" title="Jump to Pay the Price">Pay the Price ↗</a>. You have a wretched time in Hogwarts, something troubles you...</li>
+</ul></div>
+<p>TODO: Button that rolls +0, then offers the choices.</p>
+
+      </div>
+    </article>
+  
+
+    <article class="move-card" id="adventure-brew-a-potion" data-category="adventure" data-audience="player" data-type="action" data-search-text="brew a potion adventure player action when you prepare a potion, write its name down and give it an appropriate rank. in general, students learn how to brew dangerous potions starting in year 3, formidable in year 5, and extreme in year 7. if a recipe has been researched, you can try brewing potions one rank higher at -2. envision which step you are taking (gathering ingredients, crushing, mixing, etc.), then, roll +cunning (skip creating a new track while you are still working on the same potion). on a **strong hit**, mark progress. you manage to find the ingredients, or you successfully follow the correct brewing steps. on a **weak hit**, you fail something, you breathe in a foul smell, you risk getting caught, or you burn yourself... suffer -1 to momentum, spirit, health, or reputation. on a **mis**, same as above, but you must choose to bottle your potion (you may no longer brew a potion ↗ to progress on this track), or discard it.">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Brew a Potion</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="adventure">🧭 Adventure</span>
+            <span class="badge badge-action">action</span>
+            <span class="badge badge-audience">player</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="move-trigger">When you prepare a potion, write its name down and give it an appropriate rank. In general, students learn how to brew Dangerous potions starting in Year 3, Formidable in Year 5, and Extreme in Year 7. If a recipe has been researched, you can try brewing potions one rank higher at -2.</p>
+<p>Envision which step you are taking (gathering ingredients, crushing, mixing, etc.), then, roll <button type="button" class="stat-roll-badge" data-stat="cunning" title="Roll +cunning">+cunning</button> (skip creating a new track while you are still working on the same potion).</p>
+<div class="outcome-block outcome-strong"><p>On a <strong>strong hit</strong>, mark progress. You manage to find the ingredients, or you successfully follow the correct brewing steps.</p></div>
+<div class="outcome-block outcome-weak"><p>On a <strong>weak hit</strong>, you fail something, you breathe in a foul smell, you risk getting caught, or you burn yourself... Suffer -1 to momentum, spirit, health, or reputation.</p></div>
+<div class="outcome-block outcome-miss"><p>On a <strong>mis</strong>, same as above, but you must choose to bottle your potion (you may no longer <a href="#adventure-brew-a-potion" class="move-ref-link" title="Jump to Brew a Potion">Brew a Potion ↗</a> to progress on this track), or discard it.</p></div>
+
+      </div>
+    </article>
+  
+
+    <article class="move-card" id="adventure-cast" data-category="adventure" data-audience="player" data-type="action" data-search-text="cast adventure player action when you cast a spell you know outside of combat, roll +relevant skill. take -2 for each year above, or +1 for each year below. you don&#39;t need to roll for _learned_ spells 3 years below your own \[y4 -&gt; y1]. add +2 if the spell is learned. if you cast a **charm**, roll +edge . if you cast a **defensive or restorative spell**, roll +heart . if you cast **dark arts**: jinxes (instant effect), hexes (short-term effect), or curses (long-term effect), roll +power . if you cast **transfiguration spell** (very short range), roll +wits . on a **strong hit**, the spell is successful, envision what happens and gain +1 momentum. you may use the occasion to learn a spell ↗ . on a **weak hit**, you cast the spell, but (pick one)... * the effect isn&#39;t as powerful as it should be. * the effect doesn&#39;t last as long as it should. * you attract unwanted attention. on a **miss**, pay the price ↗ . the spell misses (lose momentum), backfires (_endure harm or stress_), draws attention ( get caught ↗ )...">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Cast</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="adventure">🧭 Adventure</span>
+            <span class="badge badge-action">action</span>
+            <span class="badge badge-audience">player</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="move-trigger">When you cast a spell you Know outside of combat, roll +relevant skill. Take -2 for each year above, or +1 for each year below. You don&#39;t need to roll for <em>learned</em> spells 3 years below your own [Y4 -&gt; Y1]. Add +2 if the spell is Learned.</p>
+<p>If you cast a <strong>Charm</strong>, roll <button type="button" class="stat-roll-badge" data-stat="edge" title="Roll +edge">+edge</button>.
+If you cast a <strong>Defensive or Restorative Spell</strong>, roll <button type="button" class="stat-roll-badge" data-stat="heart" title="Roll +heart">+heart</button>.
+If you cast <strong>Dark Arts</strong>: Jinxes (instant effect), Hexes (short-term effect), or Curses (long-term effect), roll <button type="button" class="stat-roll-badge" data-stat="power" title="Roll +power">+power</button>.
+If you cast <strong>Transfiguration spell</strong> (very short range), roll <button type="button" class="stat-roll-badge" data-stat="wits" title="Roll +wits">+wits</button>.</p>
+<div class="outcome-block outcome-strong"><p>On a <strong>strong hit</strong>, the spell is successful, envision what happens and gain +1 momentum.
+You may use the occasion to <a href="#adventure-learn-a-spell" class="move-ref-link" title="Jump to Learn a Spell">Learn a Spell ↗</a>.</p></div>
+<div class="outcome-block outcome-weak"><p>On a <strong>weak hit</strong>, you cast the spell, but (pick one)...</p>
+<ul>
+<li>The effect isn&#39;t as powerful as it should be.</li>
+<li>The effect doesn&#39;t last as long as it should.</li>
+<li>You attract unwanted attention.</li>
+</ul></div>
+<div class="outcome-block outcome-miss"><p>On a <strong>miss</strong>, <a href="#fate-pay-the-price" class="move-ref-link" title="Jump to Pay the Price">Pay the Price ↗</a>. The spell misses (lose momentum), backfires (<em>Endure Harm or Stress</em>), draws attention (<a href="#suffer-get-caught" class="move-ref-link" title="Jump to Get Caught">Get Caught ↗</a>)...</p></div>
+
+      </div>
+    </article>
+  
+
+    <article class="move-card" id="adventure-face-danger" data-category="adventure" data-audience="guide" data-type="action" data-search-text="face danger adventure guide action when you attempt something risky or react to an imminent threat, envision your action and roll. if you act... * with speed, agility, or precision: roll +edge . * with charm, loyalty, or courage: roll +heart . * with aggressive action, forceful defense, strength, or endurance: roll +power . * with deception, stealth, or trickery: roll +cunning . * with expertise, insight, or observation: roll +wits . on a **strong hit**, you are successful. take +1 momentum. on a **weak hit**, you succeed, but face a troublesome cost. choose one: - you are delayed, loose advantage, or face a new danger: suffer -1 momentum. - you are tired or hurt: endure harm ↗ (1 harm). - you are dispirited or afraid: endure stress ↗ (1 stress). - you get caught ↗ (1 reputation). on a **mis**, you fail, or your progress is undermined by a dramatic and costly turn of events. pay the price ↗ .">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Face Danger</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="adventure">🧭 Adventure</span>
+            <span class="badge badge-action">action</span>
+            <span class="badge badge-audience">guide</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="move-trigger">When you attempt something risky or react to an imminent threat, envision your action and roll. If you act...</p>
+<ul>
+<li>With speed, agility, or precision: Roll <button type="button" class="stat-roll-badge" data-stat="edge" title="Roll +edge">+edge</button>.</li>
+<li>With charm, loyalty, or courage: Roll <button type="button" class="stat-roll-badge" data-stat="heart" title="Roll +heart">+heart</button>.</li>
+<li>With aggressive action, forceful defense, strength, or endurance: Roll <button type="button" class="stat-roll-badge" data-stat="power" title="Roll +power">+power</button>.</li>
+<li>With deception, stealth, or trickery: Roll <button type="button" class="stat-roll-badge" data-stat="cunning" title="Roll +cunning">+cunning</button>.</li>
+<li>With expertise, insight, or observation: Roll <button type="button" class="stat-roll-badge" data-stat="wits" title="Roll +wits">+wits</button>.</li>
+</ul>
+<div class="outcome-block outcome-strong"><p>On a <strong>strong hit</strong>, you are successful. Take +1 momentum.</p></div>
+<div class="outcome-block outcome-weak"><p>On a <strong>weak hit</strong>, you succeed, but face a troublesome cost. Choose one:</p>
+<ul>
+<li>You are delayed, loose advantage, or face a new danger: Suffer -1 momentum.</li>
+<li>You are tired or hurt: <a href="#suffer-endure-harm" class="move-ref-link" title="Jump to Endure Harm">Endure Harm ↗</a> (1 harm).</li>
+<li>You are dispirited or afraid: <a href="#suffer-endure-stress" class="move-ref-link" title="Jump to Endure Stress">Endure Stress ↗</a> (1 stress).</li>
+<li>You <a href="#suffer-get-caught" class="move-ref-link" title="Jump to Get Caught">Get Caught ↗</a> (1 reputation).</li>
+</ul></div>
+<div class="outcome-block outcome-miss"><p>On a <strong>mis</strong>, you fail, or your progress is undermined by a dramatic and costly turn of events. <a href="#fate-pay-the-price" class="move-ref-link" title="Jump to Pay the Price">Pay the Price ↗</a>.</p></div>
+
+      </div>
+    </article>
+  
+
+    <article class="move-card" id="adventure-gather-information" data-category="adventure" data-audience="player" data-type="action" data-search-text="gather information adventure player action when you search an area, ask questions, conduct an investigation, or follow a track, roll +wits . if you act within a community or ask questions of a person with whom you share a bond, add +1. on a **strong hit**, you discover something helpful and specific. the path you must follow or action you must take to make progress is made clear. envision what you learn ( ask the oracle ↗ if unsure), and take +2 momentum. on a **weak hit**, the information complicates your quest or introduces a new danger. envision what you discover ( ask the oracle ↗ if unsure), and take +1 momentum. on a **mis**, your investigation unearths a dire threat or reveals an unwelcome truth that undermines your quest. pay the price ↗ . todo: add button that rolls +wits . a nd +1 if action within a community or person with a bond.">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Gather Information</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="adventure">🧭 Adventure</span>
+            <span class="badge badge-action">action</span>
+            <span class="badge badge-audience">player</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="move-trigger">When you search an area, ask questions, conduct an investigation, or follow a track, roll <button type="button" class="stat-roll-badge" data-stat="wits" title="Roll +wits">+wits</button>. If you act within a community or ask questions of a person with whom you share a bond, add +1.</p>
+<div class="outcome-block outcome-strong"><p>On a <strong>strong hit</strong>, you discover something helpful and specific. The path you must follow or action you must take to make progress is made clear.
+Envision what you learn (<a href="#fate-ask-the-oracle" class="move-ref-link" title="Jump to Ask the Oracle">Ask the Oracle ↗</a> if unsure), and take +2 momentum.</p></div>
+<div class="outcome-block outcome-weak"><p>On a <strong>weak hit</strong>, the information complicates your quest or introduces a new danger. Envision what you discover (<a href="#fate-ask-the-oracle" class="move-ref-link" title="Jump to Ask the Oracle">Ask the Oracle ↗</a> if unsure), and take +1 momentum.</p></div>
+<div class="outcome-block outcome-miss"><p>On a <strong>mis</strong>, your investigation unearths a dire threat or reveals an unwelcome truth that undermines your quest. <a href="#fate-pay-the-price" class="move-ref-link" title="Jump to Pay the Price">Pay the Price ↗</a>.</p></div>
+<p>TODO: Add button that rolls <button type="button" class="stat-roll-badge" data-stat="wits" title="Roll +wits">+wits</button>. A nd +1 if action within a community or person with a bond.</p>
+
+      </div>
+    </article>
+  
+
+    <article class="move-card" id="adventure-go-to-the-hospital-wing" data-category="adventure" data-audience="player" data-type="action" data-search-text="go to the hospital wing adventure player action when you are hurt and go to the hospital wing, make progress on the time track. heal 2 and suffer -1 momentum. if you are wounded, you may instead mark progress twice on the time track to remove the wounded condition. todo: button that marks progress of the time track of selected character, increased health my 2, and removes 1 momentum. option to mark two progress to remove wounded condition.">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Go to the Hospital Wing</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="adventure">🧭 Adventure</span>
+            <span class="badge badge-action">action</span>
+            <span class="badge badge-audience">player</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="move-trigger">When you are hurt and go to the Hospital Wing, make progress on the Time track.
+Heal 2 and suffer -1 momentum.
+If you are Wounded, you may instead mark progress twice on the Time track to remove the Wounded condition.</p>
+<p>TODO: Button that marks progress of the time track of selected character, increased health my 2, and removes 1 momentum. Option to mark two progress to remove Wounded condition.</p>
+
+      </div>
+    </article>
+  
+
+    <article class="move-card" id="adventure-interact" data-category="adventure" data-audience="player" data-type="action" data-search-text="interact adventure player action when you interact with an object or point of interest.">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Interact</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="adventure">🧭 Adventure</span>
+            <span class="badge badge-action">action</span>
+            <span class="badge badge-audience">player</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="move-trigger">When you interact with an object or point of interest.</p>
+
+      </div>
+    </article>
+  
+
+    <article class="move-card" id="adventure-investigate" data-category="adventure" data-audience="player" data-type="action" data-search-text="investigate adventure player action when you investigate an object you learn more about a particular point of interest. on a **strong hit**, you discover something helpful and specific. ask 2 questions. on a **weak hit**, the information isn&#39;t very specific, or you might miss a detail. ask 1 question. on a **miss**, you learn nothing useful and might have missed an important detail. some questions you could ask... * are there any traps? * is there any remaining magic here? * is there anything strange, physically about this? * is this similar to something i&#39;ve seen before? * is there anything of use here? * or ask anything else...">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Investigate</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="adventure">🧭 Adventure</span>
+            <span class="badge badge-action">action</span>
+            <span class="badge badge-audience">player</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="move-trigger">When you investigate an object you learn more about a particular Point of Interest.</p>
+<div class="outcome-block outcome-strong"><p>On a <strong>strong hit</strong>, you discover something helpful and specific. Ask 2 questions.</p></div>
+<div class="outcome-block outcome-weak"><p>On a <strong>weak hit</strong>, the information isn&#39;t very specific, or you might miss a detail. Ask 1 question.</p></div>
+<div class="outcome-block outcome-miss"><p>On a <strong>miss</strong>, you learn nothing useful and might have missed an important detail.</p></div>
+<p>Some questions you could ask...</p>
+<ul>
+<li>Are there any traps?</li>
+<li>Is there any remaining magic here?</li>
+<li>Is there anything strange, physically about this?</li>
+<li>Is this similar to something I&#39;ve seen before?</li>
+<li>Is there anything of use here?</li>
+<li>Or ask anything else...</li>
+</ul>
+
+      </div>
+    </article>
+  
+
+    <article class="move-card" id="adventure-know-something" data-category="adventure" data-audience="player" data-type="action" data-search-text="know something adventure player action when you think it&#39;s reasonable that you might have read about something or that you know a spell, roll +wits . for spells in your year, add +1 for every four months of school passed. (+1 in january, +2 in may). add +3 for earlier years (all spells 3 years below count as known and do not need to be rolled). on a **strong hit**, you know the spell well, or you&#39;ve read something useful. on a **weak hit**, you don&#39;t know the spell, or you&#39;ve read something that will make things hard. on a **miss**: you think you know the spell, but you don&#39;t. cast it as a -3. you haven&#39;t read about that.">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Know Something</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="adventure">🧭 Adventure</span>
+            <span class="badge badge-action">action</span>
+            <span class="badge badge-audience">player</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="move-trigger">When you think it&#39;s reasonable that you might have read about something or that you know a spell, roll <button type="button" class="stat-roll-badge" data-stat="wits" title="Roll +wits">+wits</button>.</p>
+<p>For spells in your year, add +1 for every four months of school passed. (+1 in January, +2 in May).</p>
+<p>Add +3 for earlier years (all spells 3 years below count as Known and do not need to be rolled).</p>
+<div class="outcome-block outcome-strong"><p>On a <strong>strong hit</strong>, you Know the spell well, or you&#39;ve read something useful.</p></div>
+<div class="outcome-block outcome-weak"><p>On a <strong>weak hit</strong>, you don&#39;t Know the spell, or you&#39;ve read something that will make things hard.</p></div>
+<div class="outcome-block outcome-miss"><p>On a <strong>miss</strong>: You think you Know the spell, but you don&#39;t. Cast it as a -3. You haven&#39;t read about that.</p></div>
+
+      </div>
+    </article>
+  
+
+    <article class="move-card" id="adventure-learn-a-spell" data-category="adventure" data-audience="guide" data-type="reaction" data-search-text="learn a spell adventure guide reaction when you learn a spell in class, with a mentor or through your own means, or when you practice a spell you know, roll +relevant skill. take -2 for each year above, or +1 for each your below. on a **strong hit**, choose: mark a known spell as learned and get +2 momentum, or mark an unknown spell as learned. on a **weak hit**, choose: mark a known spell as learned but take -2 momentum, or mark an unknown spell as known. on a **mis**, pay the price ↗ . the spell backfires spectacularly, you get frustrated, you get caught learning a forbidden spell... todo: button that rolls for selected skill. also include the year bonus of debuff.">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Learn a Spell</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="adventure">🧭 Adventure</span>
+            <span class="badge badge-reaction">reaction</span>
+            <span class="badge badge-audience">guide</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="move-trigger">When you learn a spell in class, with a mentor or through your own means, or when you practice a spell you Know, roll +relevant skill. Take -2 for each year above, or +1 for each your below.</p>
+<div class="outcome-block outcome-strong"><p>On a <strong>strong hit</strong>, choose: Mark a Known spell as Learned and get +2 momentum, or mark an unknown spell as Learned.</p></div>
+<div class="outcome-block outcome-weak"><p>On a <strong>weak hit</strong>, choose: Mark a Known spell as Learned but take -2 momentum, or mark an unknown spell as Known.</p></div>
+<div class="outcome-block outcome-miss"><p>On a <strong>mis</strong>, <a href="#fate-pay-the-price" class="move-ref-link" title="Jump to Pay the Price">Pay the Price ↗</a>. The spell backfires spectacularly, you get frustrated, you get caught learning a forbidden spell...</p></div>
+<p>TODO: Button that rolls for selected skill. Also include the year bonus of debuff.</p>
+
+      </div>
+    </article>
+  
+
+    <article class="move-card" id="adventure-move" data-category="adventure" data-audience="player" data-type="action" data-search-text="move adventure player action when you move you may move 3 spaces in any direction. you may interrupt your movement to perform another action.">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Move</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="adventure">🧭 Adventure</span>
+            <span class="badge badge-action">action</span>
+            <span class="badge badge-audience">player</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="move-trigger">When you move you may move 3 spaces in any direction. You may interrupt your movement to perform another action.</p>
+
+      </div>
+    </article>
+  
+
+    <article class="move-card" id="adventure-pass-your-exams" data-category="adventure" data-audience="guide" data-type="reaction" data-search-text="pass your exams adventure guide reaction this is the progress roll for the academic track, momentum is ignored on this roll. reset your health for the next year. on a **strong hit**: outstanding work! * mark +3xp. reset your reputation and spirit * mark 3 spells from the year you are ending as learned * mark 3 spells from the year you are starting as known. on a **weak hit**: you can do better. pick one from above, then _ensure stress (1 stress)_. on a **mis**: dreadful results. get caught ↗ -2, you should considering studying over summer. don&#39;t forget to check if you win the house cup ↗ at the end of the year.">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Pass your Exams</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="adventure">🧭 Adventure</span>
+            <span class="badge badge-reaction">reaction</span>
+            <span class="badge badge-audience">guide</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p>This is the progress roll for the Academic track, momentum is ignored on this roll.
+Reset your Health for the next year.</p>
+<div class="outcome-block outcome-strong"><p>On a <strong>strong hit</strong>: Outstanding work!</p>
+<ul>
+<li>Mark +3XP. reset your reputation and spirit</li>
+<li>Mark 3 spells from the year you are ending as Learned </li>
+<li>Mark 3 spells from the year you are starting as Known.</li>
+</ul></div>
+<div class="outcome-block outcome-weak"><p>On a <strong>weak hit</strong>: You can do better. Pick one from above, then <em>Ensure Stress (1 stress)</em>.</p></div>
+<div class="outcome-block outcome-miss"><p>On a <strong>mis</strong>: Dreadful results. <a href="#suffer-get-caught" class="move-ref-link" title="Jump to Get Caught">Get Caught ↗</a> -2, you should considering studying over summer.
+Don&#39;t forget to check if you <a href="#relationship-win-the-house-cup" class="move-ref-link" title="Jump to Win the House Cup">Win the House Cup ↗</a> at the end of the year.</p></div>
+
+      </div>
+    </article>
+  
+
+    <article class="move-card" id="adventure-secure-an-advantage" data-category="adventure" data-audience="player" data-type="action" data-search-text="secure an advantage adventure player action when you assess a situation, make preparations, or attempt to gain leverage, envision your action and roll. if you act... * with speed, agility, or precision: roll +edge . * with charm, loyalty, or courage: roll +heart . * with aggressive action, forceful defense, strength, or endurance: roll +power . * with deception, stealth, trickery, or divination: roll +cunning . * with expertise, insight, or observation: roll +wits . on a **strong hit**, take both. one a **weak hit**, choose one. * take +2 momentum. * add +1 on your next move (not a progress move). on a **mis**, you fail or your assumptions betray you. pay the price ↗ .">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Secure an Advantage</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="adventure">🧭 Adventure</span>
+            <span class="badge badge-action">action</span>
+            <span class="badge badge-audience">player</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="move-trigger">When you assess a situation, make preparations, or attempt to gain leverage, envision your action and roll. If you act...</p>
+<ul>
+<li>With speed, agility, or precision: Roll <button type="button" class="stat-roll-badge" data-stat="edge" title="Roll +edge">+edge</button>.</li>
+<li>With charm, loyalty, or courage: Roll <button type="button" class="stat-roll-badge" data-stat="heart" title="Roll +heart">+heart</button>.</li>
+<li>With aggressive action, forceful defense, strength, or endurance: Roll <button type="button" class="stat-roll-badge" data-stat="power" title="Roll +power">+power</button>.</li>
+<li>With deception, stealth, trickery, or divination: Roll <button type="button" class="stat-roll-badge" data-stat="cunning" title="Roll +cunning">+cunning</button>.</li>
+<li>With expertise, insight, or observation: Roll <button type="button" class="stat-roll-badge" data-stat="wits" title="Roll +wits">+wits</button>.</li>
+</ul>
+<div class="outcome-block outcome-strong"><p>On a <strong>strong hit</strong>, take both. One a <strong>weak hit</strong>, choose one.</p>
+<ul>
+<li>Take +2 momentum.</li>
+<li>Add +1 on your next move (not a progress move).</li>
+</ul></div>
+<div class="outcome-block outcome-miss"><p>On a <strong>mis</strong>, you fail or your assumptions betray you. <a href="#fate-pay-the-price" class="move-ref-link" title="Jump to Pay the Price">Pay the Price ↗</a>.</p></div>
+
+      </div>
+    </article>
+  
+
+    <article class="move-card" id="adventure-study" data-category="adventure" data-audience="player" data-type="action" data-search-text="study adventure player action when you study outside of class, roll +wit. on a **strong hit**, mark progress on the academic t rack and add +1 the next time you attend class ↗ . on a **weak hit**, pick one: * gain +1 momentum * gain +2 momentum at the cost of 1 stress. on a **mis**, you overwork yourself or something bothersome interrupts you. pay the price ↗ .">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Study</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="adventure">🧭 Adventure</span>
+            <span class="badge badge-action">action</span>
+            <span class="badge badge-audience">player</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="move-trigger">When you study outside of class, roll +wit.</p>
+<div class="outcome-block outcome-strong"><p>On a <strong>strong hit</strong>, mark progress on the Academic t rack and add +1 the next time you <a href="#life-attend-class" class="move-ref-link" title="Jump to Attend Class">Attend Class ↗</a>.</p></div>
+<div class="outcome-block outcome-weak"><p>On a <strong>weak hit</strong>, pick one:</p>
+<ul>
+<li>gain +1 momentum</li>
+<li>gain +2 momentum at the cost of 1 Stress.</li>
+</ul></div>
+<div class="outcome-block outcome-miss"><p>On a <strong>mis</strong>, you overwork yourself or something bothersome interrupts you. <a href="#fate-pay-the-price" class="move-ref-link" title="Jump to Pay the Price">Pay the Price ↗</a>.</p></div>
+
+      </div>
+    </article>
+  
+
+    <article class="move-card" id="adventure-use-a-potion" data-category="adventure" data-audience="player" data-type="action" data-search-text="use a potion adventure player action when you use a potion you created, roll the challenge dice and compare to your progress on the potion&#39;s track. momentum is ignored on this roll. on a **strong hit**, the potion works as intended. on a **weak hit**, the potion mostly works, but it has a side effect or is less potent than intended. take -1 momentum. on a **miss**, the potion was not prepared as it should, something goes horribly wrong. pay the price ↗ .">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Use a Potion</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="adventure">🧭 Adventure</span>
+            <span class="badge badge-action">action</span>
+            <span class="badge badge-audience">player</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="move-trigger">When you use a potion you created, roll the challenge dice and compare to your progress on the Potion&#39;s track. Momentum is ignored on this roll.</p>
+<div class="outcome-block outcome-strong"><p>On a <strong>strong hit</strong>, the potion works as intended.</p></div>
+<div class="outcome-block outcome-weak"><p>On a <strong>weak hit</strong>, the potion mostly works, but it has a side effect or is less potent than intended. Take -1 momentum.</p></div>
+<div class="outcome-block outcome-miss"><p>On a <strong>miss</strong>, the potion was not prepared as it should, something goes horribly wrong. <a href="#fate-pay-the-price" class="move-ref-link" title="Jump to Pay the Price">Pay the Price ↗</a>.</p></div>
+
+      </div>
+    </article>
+  
+      </div>
+    </section>
+  
+    <section class="category-group" id="cat-group-combat" data-category="combat">
+      <div class="category-header">
+        <h2>⚔️ Combat</h2>
+        <span class="category-desc">Duels, skirmishes, clashes, and tactical spell combat against adversaries.</span>
+        <span class="category-count">7 moves</span>
+      </div>
+      <div class="moves-grid">
+        
+    <article class="move-card" id="combat-battle" data-category="combat" data-audience="player" data-type="action" data-search-text="battle combat player action when you fight a battle, and it happens in a blur, envision your objective and roll. if you primarily... * fight at range, or using your speed and the terrain to your advantage: roll +edge . * fight depending on your courage, allies, or companions: roll +heart . * fight in close to overpower your opponents: roll +power . * right using trickery to befuddle your opponents: roll +cunning . * fight using careful tactics to outsmart your opponents: roll +wits . on a **strong hit**, you achieve your objective unconditionally. take +2 momentum. on a **weak hit**, you achieve your objective, but not without cost. pay the price ↗ . on a **miss**, you are defeated and the objective is lost to you. pay the price ↗ .">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Battle</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="combat">⚔️ Combat</span>
+            <span class="badge badge-action">action</span>
+            <span class="badge badge-audience">player</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="move-trigger">When you fight a battle, and it happens in a blur, envision your objective and roll. If you primarily...</p>
+<ul>
+<li>Fight at range, or using your speed and the terrain to your advantage: Roll <button type="button" class="stat-roll-badge" data-stat="edge" title="Roll +edge">+edge</button>.</li>
+<li>Fight depending on your courage, allies, or companions: Roll <button type="button" class="stat-roll-badge" data-stat="heart" title="Roll +heart">+heart</button>.</li>
+<li>Fight in close to overpower your opponents: Roll <button type="button" class="stat-roll-badge" data-stat="power" title="Roll +power">+power</button>.</li>
+<li>Right using trickery to befuddle your opponents: Roll <button type="button" class="stat-roll-badge" data-stat="cunning" title="Roll +cunning">+cunning</button>.</li>
+<li>Fight using careful tactics to outsmart your opponents: Roll <button type="button" class="stat-roll-badge" data-stat="wits" title="Roll +wits">+wits</button>.</li>
+</ul>
+<div class="outcome-block outcome-strong"><p>On a <strong>strong hit</strong>, you achieve your objective unconditionally. Take +2 momentum.</p></div>
+<div class="outcome-block outcome-weak"><p>On a <strong>weak hit</strong>, you achieve your objective, but not without cost. <a href="#fate-pay-the-price" class="move-ref-link" title="Jump to Pay the Price">Pay the Price ↗</a>.</p></div>
+<div class="outcome-block outcome-miss"><p>On a <strong>miss</strong>, you are defeated and the objective is lost to you. <a href="#fate-pay-the-price" class="move-ref-link" title="Jump to Pay the Price">Pay the Price ↗</a>.</p></div>
+
+      </div>
+    </article>
+  
+
+    <article class="move-card" id="combat-clash" data-category="combat" data-audience="player" data-type="action" data-search-text="clash combat player action when your foe has initiative and you fight with them in close quarters, roll +power . when you exchange a volley at range, or shoot an advancing foe, roll +edge . if using spells, use spell combat ↗ . on a **strong hit**, inflict your harm and choose one. you have the initiative. * you bolster your position: take +1 momentum. * you find an opening: inflict +1 harm. on a **weak hit**, inflict your harm, but then pay the price ↗ . your foe has initiative. on a **miss**, you are outmatched and must pay the price ↗ . your foe has initiative.">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Clash</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="combat">⚔️ Combat</span>
+            <span class="badge badge-action">action</span>
+            <span class="badge badge-audience">player</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="move-trigger">When your foe has initiative and you fight with them in close quarters, roll <button type="button" class="stat-roll-badge" data-stat="power" title="Roll +power">+power</button>. When you exchange a volley at range, or shoot an advancing foe, roll <button type="button" class="stat-roll-badge" data-stat="edge" title="Roll +edge">+edge</button>. If using spells, use <a href="#combat-spell-combat" class="move-ref-link" title="Jump to Spell Combat">Spell Combat ↗</a>.</p>
+<div class="outcome-block outcome-strong"><p>On a <strong>strong hit</strong>, inflict your harm and choose one.
+You have the initiative.</p>
+<ul>
+<li>You bolster your position: Take +1 momentum.</li>
+<li>You find an opening: Inflict +1 harm.</li>
+</ul></div>
+<div class="outcome-block outcome-weak"><p>On a <strong>weak hit</strong>, inflict your harm, but then <a href="#fate-pay-the-price" class="move-ref-link" title="Jump to Pay the Price">Pay the Price ↗</a>. Your foe has initiative.</p></div>
+<div class="outcome-block outcome-miss"><p>On a <strong>miss</strong>, you are outmatched and must <a href="#fate-pay-the-price" class="move-ref-link" title="Jump to Pay the Price">Pay the Price ↗</a>. Your foe has initiative.</p></div>
+
+      </div>
+    </article>
+  
+
+    <article class="move-card" id="combat-end-the-fight" data-category="combat" data-audience="player" data-type="action" data-search-text="end the fight combat player action when you take decisive action to resolve the outcome of this fight, roll the challenge dice and compare to your progress. momentum is ignored on this roll. if you do not have initiative, count a strong hit as a weak hit, and weak hit as a miss. on a **strong hit**, this foe is no longer in the fight. they are killed, out of action, flee, or surrender as appropriate to the situations and your intent ( ask the oracle ↗ if unsure). on a **weak hit**, as above, but you must also choose one. * it&#39;s worse than you thought: endure harm ↗ . * you are overcome: endure stress ↗ . * your victory is short-lived: a new danger or foe appears, or an existing danger worsens. * you suffer collateral damage: something of value is lost or broken, or someone important must pay the cost. * you&#39;ll pay for it: an objective falls out of reach. * others won&#39;t forget: you are marked for vengeance. on a **mis**, you have lost this fight. pay the price ↗ .">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">End the Fight</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="combat">⚔️ Combat</span>
+            <span class="badge badge-action">action</span>
+            <span class="badge badge-audience">player</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="move-trigger">When you take decisive action to resolve the outcome of this fight, roll the challenge dice and compare to your progress. Momentum is ignored on this roll.</p>
+<p>If you do not have initiative, count a strong hit as a weak hit, and weak hit as a miss.</p>
+<div class="outcome-block outcome-strong"><p>On a <strong>strong hit</strong>, this foe is no longer in the fight. They are killed, out of action, flee, or surrender as appropriate to the situations and your intent (<a href="#fate-ask-the-oracle" class="move-ref-link" title="Jump to Ask the Oracle">Ask the Oracle ↗</a> if unsure).</p></div>
+<div class="outcome-block outcome-weak"><p>On a <strong>weak hit</strong>, as above, but you must also choose one.</p>
+<ul>
+<li>It&#39;s worse than you thought: <a href="#suffer-endure-harm" class="move-ref-link" title="Jump to Endure Harm">Endure Harm ↗</a>.</li>
+<li>You are overcome: <a href="#suffer-endure-stress" class="move-ref-link" title="Jump to Endure Stress">Endure Stress ↗</a>.</li>
+<li>Your victory is short-lived: A new danger or foe appears, or an existing danger worsens.</li>
+<li>You suffer collateral damage: Something of value is lost or broken, or someone important must pay the cost.</li>
+<li>You&#39;ll pay for it: An objective falls out of reach.</li>
+<li>Others won&#39;t forget: You are marked for vengeance.</li>
+</ul></div>
+<div class="outcome-block outcome-miss"><p>On a <strong>mis</strong>, you have lost this fight. <a href="#fate-pay-the-price" class="move-ref-link" title="Jump to Pay the Price">Pay the Price ↗</a>.</p></div>
+
+      </div>
+    </article>
+  
+
+    <article class="move-card" id="combat-enter-the-fray" data-category="combat" data-audience="player" data-type="action" data-search-text="enter the fray combat player action when you enter into combat, set the rank of each of your foes. * troublesome foe: 3 progress per harm. * dangerous foe: 2 progress per harm. * formidable foe: 1 progress per harm. * extreme foe: 2 ticks per harm. * epic foe: 1 tick per harm. then, roll to determine who is in control. if you are... * facing off against your foe: roll +heart . * moving into position against an unaware foe, or striking without warning: roll +cunning . * ambushed: roll +wits . on a **strong hit**, take +2 momentum. you have initiative. on a **weak hit**, choose on. * bolster your position: take +2 momentum. * prepare to act: take initiative. on a **miss**, combat begins with you at a disadvantage. pay the price ↗ . your foe has initiative.">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Enter the Fray</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="combat">⚔️ Combat</span>
+            <span class="badge badge-action">action</span>
+            <span class="badge badge-audience">player</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="move-trigger">When you enter into combat, set the rank of each of your foes.</p>
+<ul>
+<li>Troublesome foe: 3 progress per harm.</li>
+<li>Dangerous foe: 2 progress per harm.</li>
+<li>Formidable foe: 1 progress per harm.</li>
+<li>Extreme foe: 2 ticks per harm.</li>
+<li>Epic foe: 1 tick per harm.</li>
+</ul>
+<p>Then, roll to determine who is in control. If you are...</p>
+<ul>
+<li>Facing off against your foe: Roll <button type="button" class="stat-roll-badge" data-stat="heart" title="Roll +heart">+heart</button>.</li>
+<li>Moving into position against an unaware foe, or striking without warning: Roll <button type="button" class="stat-roll-badge" data-stat="cunning" title="Roll +cunning">+cunning</button>.</li>
+<li>Ambushed: Roll <button type="button" class="stat-roll-badge" data-stat="wits" title="Roll +wits">+wits</button>.</li>
+</ul>
+<div class="outcome-block outcome-strong"><p>On a <strong>strong hit</strong>, take +2 momentum. You have initiative.</p></div>
+<div class="outcome-block outcome-weak"><p>On a <strong>weak hit</strong>, choose on.</p>
+<ul>
+<li>Bolster your position: Take +2 momentum.</li>
+<li>Prepare to act: Take initiative.</li>
+</ul></div>
+<div class="outcome-block outcome-miss"><p>On a <strong>miss</strong>, combat begins with you at a disadvantage. <a href="#fate-pay-the-price" class="move-ref-link" title="Jump to Pay the Price">Pay the Price ↗</a>. Your foe has initiative.</p></div>
+
+      </div>
+    </article>
+  
+
+    <article class="move-card" id="combat-spell-combat" data-category="combat" data-audience="player" data-type="action" data-search-text="spell combat combat player action when you use a move in combat by casting spells you know. proceed with the move as usual, but roll +relevant to the spell type (note you may use a single move to represent multiple spells, use the stat you feel most relevant if multiple types are used). cast known spells at -1. damaging spells cause 2 harm, whereas non-spell damage causes 1 harm. transfigurating an enemy is a rather powerful move, so consider doing so on your last enemy only when you are ready to end the fight ↗ . you could only still use transfiguration strategically on other items or insuspecting animals to secure an advantage ↗ or face danger ↗ , or if faces with several enemies.">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Spell Combat</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="combat">⚔️ Combat</span>
+            <span class="badge badge-action">action</span>
+            <span class="badge badge-audience">player</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="move-trigger">When you use a move in combat by casting spells you Know. Proceed with the move as usual, but roll +relevant to the spell type (note you may use a single move to represent multiple spells, use the stat you feel most relevant if multiple types are used).</p>
+<p>Cast Known spells at -1. Damaging spells cause 2 harm, whereas non-spell damage causes 1 harm.</p>
+<p>Transfigurating an enemy is a rather powerful move, so consider doing so on your last enemy only when you are ready to <a href="#combat-end-the-fight" class="move-ref-link" title="Jump to End the Fight">End the Fight ↗</a>. You could only still use transfiguration strategically on other items or insuspecting animals to <a href="#adventure-secure-an-advantage" class="move-ref-link" title="Jump to Secure an Advantage">Secure an Advantage ↗</a> or <a href="#adventure-face-danger" class="move-ref-link" title="Jump to Face Danger">Face Danger ↗</a>, or if faces with several enemies.</p>
+
+      </div>
+    </article>
+  
+
+    <article class="move-card" id="combat-strike" data-category="combat" data-audience="player" data-type="action" data-search-text="strike combat player action when you have initiative and attack on close quarters, roll +power . when you have initiative and attack at range, roll +edge . if using spells, use spell combat ↗ . on a **strong hit**, inflict +1 harm. you retain initiative. on a **weak hit**, inflict your harm and lose initiative. on a **mis**, your attack fails and you must pay the price ↗ . your foe has initiative.">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Strike</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="combat">⚔️ Combat</span>
+            <span class="badge badge-action">action</span>
+            <span class="badge badge-audience">player</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="move-trigger">When you have initiative and attack on close quarters, roll <button type="button" class="stat-roll-badge" data-stat="power" title="Roll +power">+power</button>. When you have initiative and attack at range, roll <button type="button" class="stat-roll-badge" data-stat="edge" title="Roll +edge">+edge</button>. If using spells, use <a href="#combat-spell-combat" class="move-ref-link" title="Jump to Spell Combat">Spell Combat ↗</a>.</p>
+<div class="outcome-block outcome-strong"><p>On a <strong>strong hit</strong>, inflict +1 harm. You retain initiative.</p></div>
+<div class="outcome-block outcome-weak"><p>On a <strong>weak hit</strong>, inflict your harm and lose initiative.</p></div>
+<div class="outcome-block outcome-miss"><p>On a <strong>mis</strong>, your attack fails and you must <a href="#fate-pay-the-price" class="move-ref-link" title="Jump to Pay the Price">Pay the Price ↗</a>. Your foe has initiative.</p></div>
+
+      </div>
+    </article>
+  
+
+    <article class="move-card" id="combat-turn-the-tide" data-category="combat" data-audience="player" data-type="action" data-search-text="turn the tide combat player action once per fight, when you risk it all, you may steal initiative from your foe to make a move (not a progress move). when you do, add +1 and take +1 momentum on a hit. if you fail to score a hit on that move, you must suffer a dire outcome. pay the price ↗ .">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Turn the Tide</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="combat">⚔️ Combat</span>
+            <span class="badge badge-action">action</span>
+            <span class="badge badge-audience">player</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p>Once per fight, when you risk it all, you may steal initiative from your foe to make a move (not a progress move). When you do, add +1 and take +1 momentum on a hit.</p>
+<p>If you fail to score a hit on that move, you must suffer a dire outcome. <a href="#fate-pay-the-price" class="move-ref-link" title="Jump to Pay the Price">Pay the Price ↗</a>.</p>
+
+      </div>
+    </article>
+  
+      </div>
+    </section>
+  
+    <section class="category-group" id="cat-group-life" data-category="life">
+      <div class="category-header">
+        <h2>🏰 Hogwarts Life</h2>
+        <span class="category-desc">Attending classes, brewing potions, hospital wing recovery, and student routines.</span>
+        <span class="category-count">1 moves</span>
+      </div>
+      <div class="moves-grid">
+        
+    <article class="move-card" id="life-attend-class" data-category="life" data-audience="player" data-type="action" data-search-text="attend class life player action mark progress on time track, then roll the relevant skill. if you are studying a spell, you can roll to learn a spell ↗ , even on a miss. on a **strong hit**, mark progress on the academic track, envision the scene and pick the most relevant: * add +1 if you roll to learn a spell * brew a potion +1, using the ingredients provided. you get to keep it when it is done. (take brewing length into consideration) * get +2 reputation * get +2 momentum * get +1 to forge a bond ↗ with teacher or partner on a **weak hit**, class doesn’t go as planned. ask the oracle ↗ to see what happened and play out the scene. if you manage to get things back on track, mark progress on the academic track. on a **miss**, envision what went wrong and _pay the price_.">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Attend Class</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="life">🏰 Hogwarts Life</span>
+            <span class="badge badge-action">action</span>
+            <span class="badge badge-audience">player</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p>Mark progress on time track, then roll the relevant skill. If you are studying a spell, you can roll to <a href="#adventure-learn-a-spell" class="move-ref-link" title="Jump to Learn a Spell">Learn a spell ↗</a>, even on a miss.</p>
+<div class="outcome-block outcome-strong"><p>On a <strong>strong hit</strong>, mark progress on the Academic track, envision the scene and pick the most relevant:</p>
+<ul>
+<li>Add +1 if you roll to Learn a spell</li>
+<li>Brew a potion +1, using the ingredients provided. You get to keep it when it is done. (Take brewing length into consideration)</li>
+<li>Get +2 reputation</li>
+<li>Get +2 momentum</li>
+<li>Get +1 to <a href="#relationship-forge-a-bond" class="move-ref-link" title="Jump to Forge a Bond">Forge a bond ↗</a> with teacher or partner</li>
+</ul></div>
+<div class="outcome-block outcome-weak"><p>On a <strong>weak hit</strong>, class doesn’t go as planned. <a href="#fate-ask-the-oracle" class="move-ref-link" title="Jump to Ask the Oracle">Ask the Oracle ↗</a> to see what happened and play out the scene. If you manage to get things back on track, mark progress on the academic track.</p></div>
+<div class="outcome-block outcome-miss"><p>On a <strong>miss</strong>, envision what went wrong and <em>Pay
+the Price</em>.</p></div>
+
+      </div>
+    </article>
+  
+      </div>
+    </section>
+  
+    <section class="category-group" id="cat-group-quest" data-category="quest">
+      <div class="category-header">
+        <h2>📜 Quests & Mysteries</h2>
+        <span class="category-desc">Investigating mysteries, gathering clues, advancing tracks, and solving enigmas.</span>
+        <span class="category-count">3 moves</span>
+      </div>
+      <div class="moves-grid">
+        
+    <article class="move-card" id="quest-advance" data-category="quest" data-audience="guide" data-type="reaction" data-search-text="advance quest guide reaction when you focus on your skills, receive training, find inspiration, earn a reward, or gain a companion you may spend 3 experience to add a new asset, or 2 experience to upgrade an asset.">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Advance</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="quest">📜 Quests & Mysteries</span>
+            <span class="badge badge-reaction">reaction</span>
+            <span class="badge badge-audience">guide</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="move-trigger">When you focus on your skills, receive training, find inspiration, earn a reward, or gain a companion you may spend 3 experience to add a new asset, or 2 experience to upgrade an asset.</p>
+
+      </div>
+    </article>
+  
+
+    <article class="move-card" id="quest-investigate-a-mystery" data-category="quest" data-audience="guide" data-type="action" data-search-text="investigate a mystery quest guide action when you want to solve a mystery or are tasked with a quest, write down the mystery or quest and give it a rank. then roll +heart . if solving it will help a person or community with whom you share a bond, add +1. on a **strong hit**, you are emboldened and it is clear what you must do next ( ask the oracle ↗ if unsure). take +2 momentum. on a **weak hit**, you are determined but begin your quest with more questions than answers. take +1 momentum, and envision what you do to find a path forward. on a **miss**, you face a significant obstacle before you can begin your quest. envision what stands in your way ( ask the oracle ↗ if unsure), and choose one. * you press on: suffer -2 momentum, and do what you must to overcome this obstacle. * you give up: pay the price ↗ .">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Investigate a Mystery</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="quest">📜 Quests & Mysteries</span>
+            <span class="badge badge-action">action</span>
+            <span class="badge badge-audience">guide</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="move-trigger">When you want to solve a mystery or are tasked with a quest, write down the mystery or quest and give it a rank. Then roll <button type="button" class="stat-roll-badge" data-stat="heart" title="Roll +heart">+heart</button>. If solving it will help a person or community with whom you share a bond, add +1.</p>
+<div class="outcome-block outcome-strong"><p>On a <strong>strong hit</strong>, you are emboldened and it is clear what you must do next (<a href="#fate-ask-the-oracle" class="move-ref-link" title="Jump to Ask the Oracle">Ask the Oracle ↗</a> if unsure). Take +2 momentum.</p></div>
+<div class="outcome-block outcome-weak"><p>On a <strong>weak hit</strong>, you are determined but begin your quest with more questions than answers. Take +1 momentum, and envision what you do to find a path forward.</p></div>
+<div class="outcome-block outcome-miss"><p>On a <strong>miss</strong>, you face a significant obstacle before you can begin your quest. Envision what stands in your way (<a href="#fate-ask-the-oracle" class="move-ref-link" title="Jump to Ask the Oracle">Ask the Oracle ↗</a> if unsure), and choose one.</p>
+<ul>
+<li>You press on: Suffer -2 momentum, and do what you must to overcome this obstacle.</li>
+<li>You give up: <a href="#fate-pay-the-price" class="move-ref-link" title="Jump to Pay the Price">Pay the Price ↗</a>.</li>
+</ul></div>
+
+      </div>
+    </article>
+  
+
+    <article class="move-card" id="quest-solve-a-mystery" data-category="quest" data-audience="guide" data-type="reaction" data-search-text="solve a mystery quest guide reaction when you reach what you believe to be the conclusion of a mystery, roll the challenge dice and compare to your progress. momentum is ignored on this roll. on a **strong hit**, your mystery is solved or your quest complete. mark experience (troublesome=1; dangerous=2; formidable=3; extreme=4; epic=5). on a **weak hit**, there is more to be done or you realize the truth of your quest. envision what you discover (ask the oracle if unsure). then, mark experience (troublesome=0; dangerous=1; formidable=2; extreme=3; epic=4). you may investigate a mystery to set things right. if you do, add +1. on a **miss**, your investigation or quest was in vain. envision what happens ( ask the oracle ↗ if unsure), and choose one. * you recommit: clear all but one filled progress, and raise the mystery’s rank by one (if not already epic). * you give up: pay the price ↗ .">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Solve a Mystery</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="quest">📜 Quests & Mysteries</span>
+            <span class="badge badge-reaction">reaction</span>
+            <span class="badge badge-audience">guide</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="move-trigger">When you reach what you believe to be the
+conclusion of a mystery, roll the challenge dice
+and compare to your progress. Momentum is
+ignored on this roll.</p>
+<div class="outcome-block outcome-strong"><p>On a <strong>strong hit</strong>, your mystery is solved or your
+quest complete. Mark experience (troublesome=1; dangerous=2; formidable=3;
+extreme=4; epic=5).</p></div>
+<div class="outcome-block outcome-weak"><p>On a <strong>weak hit</strong>, there is more to be done or you realize the truth of your quest. Envision what you discover (Ask the Oracle if unsure). Then, mark experience (troublesome=0; dangerous=1; formidable=2; extreme=3; epic=4). You may
+Investigate a Mystery to set things right. If you do, add +1.</p></div>
+<div class="outcome-block outcome-miss"><p>On a <strong>miss</strong>, your investigation or quest was in vain. Envision what happens (<a href="#fate-ask-the-oracle" class="move-ref-link" title="Jump to Ask the Oracle">Ask the Oracle ↗</a> if unsure), and choose one.</p>
+<ul>
+<li>You recommit: Clear all but one filled progress,
+and raise the mystery’s rank by one (if not already epic).</li>
+<li>You give up: <a href="#fate-pay-the-price" class="move-ref-link" title="Jump to Pay the Price">Pay the Price ↗</a>.</li>
+</ul></div>
+
+      </div>
+    </article>
+  
+      </div>
+    </section>
+  
+    <section class="category-group" id="cat-group-relationship" data-category="relationship">
+      <div class="category-header">
+        <h2>🤝 Relationships</h2>
+        <span class="category-desc">Aiding allies, compelling others, forging bonds, common room downtime, and the House Cup.</span>
+        <span class="category-count">6 moves</span>
+      </div>
+      <div class="moves-grid">
+        
+    <article class="move-card" id="relationship-aid-your-ally" data-category="relationship" data-audience="guide" data-type="reaction" data-search-text="aid your ally relationship guide reaction when you secure an advantage ↗ in direct support of an ally, and score a hit, they (instead of you) can take the benefits of the move. if you are in the combat and score a **strong hit**, you and your ally have initiative.">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Aid your Ally</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="relationship">🤝 Relationships</span>
+            <span class="badge badge-reaction">reaction</span>
+            <span class="badge badge-audience">guide</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="move-trigger">When you <a href="#adventure-secure-an-advantage" class="move-ref-link" title="Jump to Secure an Advantage">Secure an Advantage ↗</a> in direct support of an ally, and score a hit, they (instead of you) can take the benefits of the move. If you are in the combat and score a <strong>strong hit</strong>, you and your ally have initiative.</p>
+
+      </div>
+    </article>
+  
+
+    <article class="move-card" id="relationship-compel" data-category="relationship" data-audience="player" data-type="action" data-search-text="compel relationship player action when you attempt to persuade someone to do something, envision your approach and roll. if you... * charm, pacify, barter, or convince: roll +heart (add +1 if you share a bond). * threaten or incite: roll +power . * lie or swindle: roll +cunning . on a **strong hit**, they&#39;ll do what you want or share what they know. take +1 momentum. if you use this exchange to _gather infornation_, make that move now, and add +1. on a **weak hit**, as above, but they ask something of you in return. envision what they want ( ask the oracle ↗ if unsure). on a **miss**, they refuse or make a demand which costs you greatly. pay the price ↗ .">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Compel</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="relationship">🤝 Relationships</span>
+            <span class="badge badge-action">action</span>
+            <span class="badge badge-audience">player</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="move-trigger">When you attempt to persuade someone to do something, envision your approach and roll. If you...</p>
+<ul>
+<li>Charm, pacify, barter, or convince: Roll <button type="button" class="stat-roll-badge" data-stat="heart" title="Roll +heart">+heart</button> (add +1 if you share a bond).</li>
+<li>Threaten or incite: Roll <button type="button" class="stat-roll-badge" data-stat="power" title="Roll +power">+power</button>.</li>
+<li>Lie or swindle: Roll <button type="button" class="stat-roll-badge" data-stat="cunning" title="Roll +cunning">+cunning</button>.</li>
+</ul>
+<div class="outcome-block outcome-strong"><p>On a <strong>strong hit</strong>, they&#39;ll do what you want or share what they know. Take +1 momentum. If you use this exchange to <em>Gather Infornation</em>, make that move now, and add +1.</p></div>
+<div class="outcome-block outcome-weak"><p>On a <strong>weak hit</strong>, as above, but they ask something of you in return. Envision what they want (<a href="#fate-ask-the-oracle" class="move-ref-link" title="Jump to Ask the Oracle">Ask the Oracle ↗</a> if unsure).</p></div>
+<div class="outcome-block outcome-miss"><p>On a <strong>miss</strong>, they refuse or make a demand which costs you greatly. <a href="#fate-pay-the-price" class="move-ref-link" title="Jump to Pay the Price">Pay the Price ↗</a>.</p></div>
+
+      </div>
+    </article>
+  
+
+    <article class="move-card" id="relationship-forge-a-bond" data-category="relationship" data-audience="player" data-type="action" data-search-text="forge a bond relationship player action when you spend significant time with a person or community, stand together to face hardships, or make sacrifices for their cause, you can attempt to create a bond. when you do, roll +heart . if you make this move after you successfully solve a mystery ↗ to their benefit, you may reroll any dice. on a **strong hit**, make note of the bond, mark progress on your bond progress track, and choose one. * take +1 spirit * take +2 momentum * take +1 reputation (if bonded with a member of hogwarts&#39; staff.) on a **weak hit**, they ask something more of you first. envision what it is ( ask the oracle ↗ if unsure), do it (or investigate a mystery ↗ ), and mark the bond. if you refuse or fail, pay the price ↗ . on a **mis**, they reject you. pay the price ↗ .">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Forge a Bond</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="relationship">🤝 Relationships</span>
+            <span class="badge badge-action">action</span>
+            <span class="badge badge-audience">player</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="move-trigger">When you spend significant time with a person or community, stand together to face hardships, or make sacrifices for their cause, you can attempt to create a bond. When you do, roll <button type="button" class="stat-roll-badge" data-stat="heart" title="Roll +heart">+heart</button>. If you make this move after you successfully <a href="#quest-solve-a-mystery" class="move-ref-link" title="Jump to Solve a Mystery">Solve a Mystery ↗</a> to their benefit, you may reroll any dice.</p>
+<div class="outcome-block outcome-strong"><p>On a <strong>strong hit</strong>, make note of the bond, mark progress on your bond progress track, and choose one.</p>
+<ul>
+<li>Take +1 spirit</li>
+<li>Take +2 momentum</li>
+<li>Take +1 reputation (if bonded with a member of Hogwarts&#39; staff.)</li>
+</ul></div>
+<div class="outcome-block outcome-weak"><p>On a <strong>weak hit</strong>, they ask something more of you first.
+Envision what it is (<a href="#fate-ask-the-oracle" class="move-ref-link" title="Jump to Ask the Oracle">Ask the Oracle ↗</a> if unsure), do it (or <a href="#quest-investigate-a-mystery" class="move-ref-link" title="Jump to Investigate a Mystery">Investigate a Mystery ↗</a>), and mark the bond. If you refuse or fail, <a href="#fate-pay-the-price" class="move-ref-link" title="Jump to Pay the Price">Pay the Price ↗</a>.</p></div>
+<div class="outcome-block outcome-miss"><p>On a <strong>mis</strong>, they reject you. <a href="#fate-pay-the-price" class="move-ref-link" title="Jump to Pay the Price">Pay the Price ↗</a>.</p></div>
+
+      </div>
+    </article>
+  
+
+    <article class="move-card" id="relationship-spend-time-in-the-common-room" data-category="relationship" data-audience="player" data-type="action" data-search-text="spend time in the common room relationship player action when you rest in the warmth of your common roo, roll +heart . if with someone with whom you share a bond, add +1. on a **strong hit**, you and your allies may each pick two. on a **weak hit**, you and your allies may each pick one: * recuperate: take +health for you and any companions. * be raucous: suffer -1 reputation and take +2 spirit. * relax: take +1 spirit. * focus: take +1 momentum. * prepare: when you secure an advantage ↗ , add +1. on a **miss**, something happens while you are in the common room, or as you are heading there. pay the price ↗ . perhaps a housemate asks something of you or a mysterious even happens.">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Spend Time in the Common Room</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="relationship">🤝 Relationships</span>
+            <span class="badge badge-action">action</span>
+            <span class="badge badge-audience">player</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="move-trigger">When you rest in the warmth of your Common Roo, roll <button type="button" class="stat-roll-badge" data-stat="heart" title="Roll +heart">+heart</button>. If with someone with whom you share a bond, add +1.</p>
+<div class="outcome-block outcome-strong"><p>On a <strong>strong hit</strong>, you and your allies may each pick two.</p></div>
+<div class="outcome-block outcome-weak"><p>On a <strong>weak hit</strong>, you and your allies may each pick one:</p>
+<ul>
+<li>Recuperate: Take <button type="button" class="stat-roll-badge" data-stat="health" title="Roll +health">+health</button> for you and any companions.</li>
+<li>Be Raucous: Suffer -1 reputation and take +2 spirit.</li>
+<li>Relax: Take +1 spirit.</li>
+<li>Focus: Take +1 momentum.</li>
+<li>Prepare: When you <a href="#adventure-secure-an-advantage" class="move-ref-link" title="Jump to Secure an Advantage">Secure an Advantage ↗</a>, add +1.</li>
+</ul></div>
+<div class="outcome-block outcome-miss"><p>On a <strong>miss</strong>, something happens while you are in the common room, or as you are heading there. <a href="#fate-pay-the-price" class="move-ref-link" title="Jump to Pay the Price">Pay the Price ↗</a>. Perhaps a housemate asks something of you or a mysterious even happens.</p></div>
+
+      </div>
+    </article>
+  
+
+    <article class="move-card" id="relationship-test-your-bond" data-category="relationship" data-audience="guide" data-type="reaction" data-search-text="test your bond relationship guide reaction when your bond is tested through conflict, betrayal, or circumstance, roll +heart . on a **strong hit**, this test has strengthened your bond. choose one. * take +1 spirit. * take +2 momentum. on a **weak hit**, your bond is fragile and you must prove your loyalty. envision what they ask of you ( ask the oracle ↗ if unsure), and do it (or investigate a mystery ↗ ). if you refuse or fail, clear the bond and pay the price ↗ . on a **miss**, or if you have no interest in maintaining this relationship, clear the bond and pay the price ↗ .">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Test your Bond</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="relationship">🤝 Relationships</span>
+            <span class="badge badge-reaction">reaction</span>
+            <span class="badge badge-audience">guide</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="move-trigger">When your bond is tested through conflict, betrayal, or circumstance, roll <button type="button" class="stat-roll-badge" data-stat="heart" title="Roll +heart">+heart</button>.</p>
+<div class="outcome-block outcome-strong"><p>On a <strong>strong hit</strong>, this test has strengthened your bond. Choose one.</p>
+<ul>
+<li>Take +1 spirit.</li>
+<li>Take +2 momentum.</li>
+</ul></div>
+<div class="outcome-block outcome-weak"><p>On a <strong>weak hit</strong>, your bond is fragile and you must prove your loyalty. Envision what they ask of you (<a href="#fate-ask-the-oracle" class="move-ref-link" title="Jump to Ask the Oracle">Ask the Oracle ↗</a> if unsure), and do it (or <a href="#quest-investigate-a-mystery" class="move-ref-link" title="Jump to Investigate a Mystery">Investigate a Mystery ↗</a>). If you refuse or fail, clear the bond and <a href="#fate-pay-the-price" class="move-ref-link" title="Jump to Pay the Price">Pay the Price ↗</a>.</p></div>
+<div class="outcome-block outcome-miss"><p>On a <strong>miss</strong>, or if you have no interest in maintaining this relationship, clear the bond and <a href="#fate-pay-the-price" class="move-ref-link" title="Jump to Pay the Price">Pay the Price ↗</a>.</p></div>
+
+      </div>
+    </article>
+  
+
+    <article class="move-card" id="relationship-win-the-house-cup" data-category="relationship" data-audience="player" data-type="action" data-search-text="win the house cup relationship player action at the end of every school year, the house cup winners are announced, roll the challenge dice and compare to your bonds. momentum is ignored on this roll. on a **strong hit**, your house has won the house cup! reset your spirit track and take +1 xp. reset your bonds tracker to 0. on a **weak hit**, your house put up a good effort. start the next year with 2 progress marked. on a **miss**, your house is dead last. endure stress ↗ (1), but don&#39;t reset your bonds tracker (keep 5 progress max).">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Win the House Cup</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="relationship">🤝 Relationships</span>
+            <span class="badge badge-action">action</span>
+            <span class="badge badge-audience">player</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p>At the end of every school year, the House Cup winners are announced, roll the challenge dice and compare to your bonds. Momentum is ignored on this roll.</p>
+<div class="outcome-block outcome-strong"><p>On a <strong>strong hit</strong>, your House has won the House Cup! Reset your spirit track and take +1 XP. Reset your bonds tracker to 0.</p></div>
+<div class="outcome-block outcome-weak"><p>On a <strong>weak hit</strong>, your House put up a good effort. Start the next Year with 2 progress marked.</p></div>
+<div class="outcome-block outcome-miss"><p>On a <strong>miss</strong>, your House is dead last. <a href="#suffer-endure-stress" class="move-ref-link" title="Jump to Endure Stress">Endure Stress ↗</a> (1), but don&#39;t reset your bonds tracker (keep 5 progress max).</p></div>
+
+      </div>
+    </article>
+  
+      </div>
+    </section>
+  
+    <section class="category-group" id="cat-group-scene_challenge" data-category="scene_challenge">
+      <div class="category-header">
+        <h2>⏳ Scene Challenge</h2>
+        <span class="category-desc">High-stakes scenes, Quidditch matches, countdown segments, and rapid resolution.</span>
+        <span class="category-count">5 moves</span>
+      </div>
+      <div class="moves-grid">
+        
+    <article class="move-card" id="scene-challenge-begin-the-scene" data-category="scene_challenge" data-audience="guide" data-type="action" data-search-text="begin the scene scene_challenge guide action when you face an extended or complex challenge, name your objective and choose a rank as appropriate to the situation. * you have a clear advantage: troublesome * you are ready to act: dangerous * you are unprepared or outmatched: formidable. then, activate a four segment countdown track and face danger ↗ or secure an advantage ↗ to take action.">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Begin the Scene</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="scene_challenge">⏳ Scene Challenge</span>
+            <span class="badge badge-action">action</span>
+            <span class="badge badge-audience">guide</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="move-trigger">When you face an extended or complex challenge, name your objective and choose a rank as appropriate to the situation.</p>
+<ul>
+<li>You have a clear advantage: Troublesome</li>
+<li>You are ready to act: Dangerous</li>
+<li>You are unprepared or outmatched: Formidable.</li>
+</ul>
+<p>Then, activate a four segment countdown track and <a href="#scene-challenge-face-danger" class="move-ref-link" title="Jump to Face Danger">Face Danger ↗</a> or <a href="#scene-challenge-secure-an-advantage" class="move-ref-link" title="Jump to Secure an Advantage">Secure an Advantage ↗</a> to take action.</p>
+
+      </div>
+    </article>
+  
+
+    <article class="move-card" id="scene-challenge-face-danger" data-category="scene_challenge" data-audience="guide" data-type="action" data-search-text="face danger scene_challenge guide action when you attempt something risky or react to an imminent threat, envision your action and roll. if you act... * with speed, agility, or precision: roll +edge . * with charm, loyalty, or courage: roll +heart . * with aggressive action, forceful defense, strength, or endurance: roll +power . * with deception, stealth, or trickery: roll +cunning . * with expertise, insight, or observation: roll +wits . on a **strong hit**, you are successful and mark progress. on a **strong hit with a match**, mark progress twice. on a **weak hit**, you are successful and mark progress, but also encounter a complication or setback. envision what occurs and mark a countdown segment. on a **miss**, you fail, or a momentary success is undermined by a dramatic turn of events. mark a countdown segment and pay the price ↗ . on a **miss with a match**, mark two segments and pay the price ↗ .">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Face Danger</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="scene_challenge">⏳ Scene Challenge</span>
+            <span class="badge badge-action">action</span>
+            <span class="badge badge-audience">guide</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="move-trigger">When you attempt something risky or react to an imminent threat, envision your action and roll. If you act...</p>
+<ul>
+<li>With speed, agility, or precision: Roll <button type="button" class="stat-roll-badge" data-stat="edge" title="Roll +edge">+edge</button>.</li>
+<li>With charm, loyalty, or courage: Roll <button type="button" class="stat-roll-badge" data-stat="heart" title="Roll +heart">+heart</button>.</li>
+<li>With aggressive action, forceful defense, strength, or endurance: Roll <button type="button" class="stat-roll-badge" data-stat="power" title="Roll +power">+power</button>.</li>
+<li>With deception, stealth, or trickery: Roll <button type="button" class="stat-roll-badge" data-stat="cunning" title="Roll +cunning">+cunning</button>.</li>
+<li>With expertise, insight, or observation: Roll <button type="button" class="stat-roll-badge" data-stat="wits" title="Roll +wits">+wits</button>.</li>
+</ul>
+<div class="outcome-block outcome-strong"><p>On a <strong>strong hit</strong>, you are successful and mark progress. On a <strong>strong hit with a match</strong>, mark progress twice.</p></div>
+<div class="outcome-block outcome-weak"><p>On a <strong>weak hit</strong>, you are successful and mark progress, but also encounter a complication or setback. Envision what occurs and mark a countdown segment.</p></div>
+<div class="outcome-block outcome-miss"><p>On a <strong>miss</strong>, you fail, or a momentary success is undermined by a dramatic turn of events. Mark a countdown segment and <a href="#fate-pay-the-price" class="move-ref-link" title="Jump to Pay the Price">Pay the Price ↗</a>. On a <strong>miss with a match</strong>, mark two segments and <a href="#fate-pay-the-price" class="move-ref-link" title="Jump to Pay the Price">Pay the Price ↗</a>.</p></div>
+
+      </div>
+    </article>
+  
+
+    <article class="move-card" id="scene-challenge-finish-the-scene" data-category="scene_challenge" data-audience="guide" data-type="reaction" data-search-text="finish the scene scene_challenge guide reaction when the scene challenge countdown track or progress track is filled, or when events lead to the scene&#39;s conclusion, roll the challenge dice and compare your progress. on a **strong hit**, you achieve your objective unconditionally. on a **weak hit**, you succeed, but not without a cost. you must pay the price ↗ . make this a minor cost relatively to the scope of the scene. on a **mis**, you fail or are undetermined by a dire turn of events. pay the price ↗ .">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Finish the Scene</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="scene_challenge">⏳ Scene Challenge</span>
+            <span class="badge badge-reaction">reaction</span>
+            <span class="badge badge-audience">guide</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="move-trigger">When the scene challenge countdown track or progress track is filled, or when events lead to the scene&#39;s conclusion, roll the challenge dice and compare your progress.</p>
+<div class="outcome-block outcome-strong"><p>On a <strong>strong hit</strong>, you achieve your objective unconditionally.</p></div>
+<div class="outcome-block outcome-weak"><p>On a <strong>weak hit</strong>, you succeed, but not without a cost. You must <a href="#fate-pay-the-price" class="move-ref-link" title="Jump to Pay the Price">Pay the Price ↗</a>. Make this a minor cost relatively to the scope of the scene.</p></div>
+<div class="outcome-block outcome-miss"><p>On a <strong>mis</strong>, you fail or are undetermined by a dire turn of events. <a href="#fate-pay-the-price" class="move-ref-link" title="Jump to Pay the Price">Pay the Price ↗</a>.</p></div>
+
+      </div>
+    </article>
+  
+
+    <article class="move-card" id="scene-challenge-play-quidditch" data-category="scene_challenge" data-audience="player" data-type="action" data-search-text="play quidditch scene_challenge player action to play quidditch, start a scene challenge, setting the rank to dangerous, unless the teams are seriously lopsided. use face danger ↗ and secure an advantage ↗ using the appropriate stat. not all rolls should be +edge of course; you could use heart to plunge towards the ground and pull up at the last second, commit a foul unseen using cunning, use power to knock a bludger into the opposing seeker, etc. when you finish the scene ↗ , the snitch has been caught and the game is over. on a **strong hit**, your team wins. on a **weak hit**, either your team loses but you played well, or your yeam wins, but must pay the price ↗ . on a **miss**, you lose dramatically, pay the price ↗ . alternatively, for shorter games, you can use the battle ↗ move to resolve the match in one roll. use the appropriate stat for your position as defined page 5. you could also roll +wits if you shared a strategy with the team and they use it (even if you aren&#39;t on the team), or if you are the team captain.">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Play Quidditch</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="scene_challenge">⏳ Scene Challenge</span>
+            <span class="badge badge-action">action</span>
+            <span class="badge badge-audience">player</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p>To play Quidditch, start a scene challenge, setting the rank to Dangerous, unless the teams are seriously lopsided. Use <a href="#scene-challenge-face-danger" class="move-ref-link" title="Jump to Face Danger">Face Danger ↗</a> and <a href="#scene-challenge-secure-an-advantage" class="move-ref-link" title="Jump to Secure an Advantage">Secure an Advantage ↗</a> using the appropriate stat. Not all rolls should be <button type="button" class="stat-roll-badge" data-stat="edge" title="Roll +edge">+edge</button> of course; you could use heart to plunge towards the ground and pull up at the last second, commit a foul unseen using cunning, use power to knock a bludger into the opposing Seeker, etc.</p>
+<p class="move-trigger">When you <a href="#scene-challenge-finish-the-scene" class="move-ref-link" title="Jump to Finish the Scene">Finish the Scene ↗</a>, the snitch has been caught and the game is over.</p>
+<div class="outcome-block outcome-strong"><p>On a <strong>strong hit</strong>, your team wins.</p></div>
+<div class="outcome-block outcome-weak"><p>On a <strong>weak hit</strong>, either your team loses but you played well, or your yeam wins, but must <a href="#fate-pay-the-price" class="move-ref-link" title="Jump to Pay the Price">Pay the Price ↗</a>.</p></div>
+<div class="outcome-block outcome-miss"><p>On a <strong>miss</strong>, you lose dramatically, <a href="#fate-pay-the-price" class="move-ref-link" title="Jump to Pay the Price">Pay the Price ↗</a>.</p></div>
+<p>Alternatively, for shorter games, you can use the <a href="#combat-battle" class="move-ref-link" title="Jump to Battle">Battle ↗</a> move to resolve the match in one roll. Use the appropriate stat for your position as defined page 5. You could also roll <button type="button" class="stat-roll-badge" data-stat="wits" title="Roll +wits">+wits</button> if you shared a strategy with the team and they use it (even if you aren&#39;t on the team), or if you are the team captain.</p>
+
+      </div>
+    </article>
+  
+
+    <article class="move-card" id="scene-challenge-secure-an-advantage" data-category="scene_challenge" data-audience="player" data-type="action" data-search-text="secure an advantage scene_challenge player action when you assess a situation, make preparations, or attempt to gain leverage, envision your action and roll. if you act... * with speed, agility, or precision: roll +edge . * with charm, loyalty, or courage: roll +heart . * with aggressive action, forceful defense, strength, or endurance: roll +power . * with deception, stealth, trickery, or divination: roll +cunning . * with expertise, insight, or observation: roll +wits . on a **strong hit**, take both. on a **strong hit with a match**, take both and mark progress. on a **weak hit**, choose one. * take +2 momentum. * add +1 on your next move (not a progress move) on a **miss**, you fail or your assumptions betray you. pay the price ↗ . on a **miss with a match**, mark two segments and pay the price ↗ .">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Secure an Advantage</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="scene_challenge">⏳ Scene Challenge</span>
+            <span class="badge badge-action">action</span>
+            <span class="badge badge-audience">player</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="move-trigger">When you assess a situation, make preparations, or attempt to gain leverage, envision your action and roll. If you act...</p>
+<ul>
+<li>With speed, agility, or precision: Roll <button type="button" class="stat-roll-badge" data-stat="edge" title="Roll +edge">+edge</button>.</li>
+<li>With charm, loyalty, or courage: Roll <button type="button" class="stat-roll-badge" data-stat="heart" title="Roll +heart">+heart</button>.</li>
+<li>With aggressive action, forceful defense,
+strength, or endurance: Roll <button type="button" class="stat-roll-badge" data-stat="power" title="Roll +power">+power</button>.</li>
+<li>With deception, stealth, trickery, or divination:
+Roll <button type="button" class="stat-roll-badge" data-stat="cunning" title="Roll +cunning">+cunning</button>.</li>
+<li>With expertise, insight, or observation: Roll <button type="button" class="stat-roll-badge" data-stat="wits" title="Roll +wits">+wits</button>.</li>
+</ul>
+<div class="outcome-block outcome-strong"><p>On a <strong>strong hit</strong>, take both. On a <strong>strong hit with a match</strong>, take both and mark progress.</p></div>
+<div class="outcome-block outcome-weak"><p>On a <strong>weak hit</strong>, choose one.</p>
+<ul>
+<li>Take +2 momentum.</li>
+<li>Add +1 on your next move (not a progress
+move)</li>
+</ul></div>
+<div class="outcome-block outcome-miss"><p>On a <strong>miss</strong>, you fail or your assumptions betray
+you. <a href="#fate-pay-the-price" class="move-ref-link" title="Jump to Pay the Price">Pay the Price ↗</a>. On a <strong>miss with a match</strong>, mark two segments and <a href="#fate-pay-the-price" class="move-ref-link" title="Jump to Pay the Price">Pay the Price ↗</a>.</p></div>
+
+      </div>
+    </article>
+  
+      </div>
+    </section>
+  
+    <section class="category-group" id="cat-group-suffer" data-category="suffer">
+      <div class="category-header">
+        <h2>💔 Suffer & Harm</h2>
+        <span class="category-desc">Enduring physical harm, mental stress, getting caught by teachers, setbacks, and death.</span>
+        <span class="category-count">8 moves</span>
+      </div>
+      <div class="moves-grid">
+        
+    <article class="move-card" id="suffer-companion-endure-harm" data-category="suffer" data-audience="guide" data-type="reaction" data-search-text="companion endure harm suffer guide reaction when your companion faces physical damage, they suffer -health equal to the amount of harm inflicted. if your companion&#39;s health is 0, exchange any leftover -health for -momentum. then roll +heart or +your companion&#39;s health, whichever is higher. on a **strong hit**, your companion rallies. give them +1 health. on a **weak hit**, your companion is battered. if their health is 0, they cannot assist you until they gain at least +1 health. on a **miss**, also suffer -1 momentum. if your companion&#39;s health is 0, they are gravely wounded and out of action. without aid, they die in an hour or two. if you roll a miss with a 1 on your action die, and your companion&#39;s health it 0, they are now dead. take 1 experience for each marked ability on your companion asset, and remove it.">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Companion Endure Harm</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="suffer">💔 Suffer & Harm</span>
+            <span class="badge badge-reaction">reaction</span>
+            <span class="badge badge-audience">guide</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="move-trigger">When your companion faces physical damage, they suffer -health equal to the amount of harm inflicted. If your companion&#39;s health is 0, exchange any leftover -health for -momentum. Then roll <button type="button" class="stat-roll-badge" data-stat="heart" title="Roll +heart">+heart</button> or +your companion&#39;s health, whichever is higher.</p>
+<div class="outcome-block outcome-strong"><p>On a <strong>strong hit</strong>, your companion rallies. Give them +1 health.</p></div>
+<div class="outcome-block outcome-weak"><p>On a <strong>weak hit</strong>, your companion is battered. If their health is 0, they cannot assist you until they gain at least +1 health.</p></div>
+<div class="outcome-block outcome-miss"><p>On a <strong>miss</strong>, also suffer -1 momentum. If your companion&#39;s health is 0, they are gravely wounded and out of action. Without aid, they die in an hour or two. If you roll a miss with a 1 on your action die, and your companion&#39;s health it 0, they are now dead. Take 1 experience for each marked ability on your companion asset, and remove it.</p></div>
+
+      </div>
+    </article>
+  
+
+    <article class="move-card" id="suffer-endure-harm" data-category="suffer" data-audience="guide" data-type="reaction" data-search-text="endure harm suffer guide reaction when you face physical damage, suffer -health as appropriate to the situations. if your health is 0, suffer -momentum equal to any remaining health. then roll +health , or +power , whichever is higher. on a **strong hit**, choose one. * shake it off: if your health is greater than 0, suffer -1 momentum in exchange for +1 health. * embrace the pain: take +1 momentum. on a **weak hit**, you press on. on a **miss**, also suffer -1 momentum. if you are at 0 health, you must mark wounded or maimed (if currently unmarked) or roll on the following table. | roll | result | | ------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | | 1-10 | the harm is mortal. face death ↗ . | | 11-20 | you are dying. you need healing within an hour or two, or face death ↗ . | | 21-35 | you are unconscious and out of action. if left alone, you come back to your senses in an hour or two. if you are vulnerable to a foe not inclined to show mercy, face death ↗ . | | 36-50 | you are reeling and fighting to stay conscious. if you engage in any vigorous activity (such as running or fighting) before taking a breather for a few minutes, roll on this table again (before resolving the other move). | | 51-100 | you are battered but still standing. |">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Endure Harm</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="suffer">💔 Suffer & Harm</span>
+            <span class="badge badge-reaction">reaction</span>
+            <span class="badge badge-audience">guide</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="move-trigger">When you face physical damage, suffer -health as appropriate to the situations. If  your health is 0, suffer -momentum equal to any remaining health. Then roll <button type="button" class="stat-roll-badge" data-stat="health" title="Roll +health">+health</button>, or <button type="button" class="stat-roll-badge" data-stat="power" title="Roll +power">+power</button>, whichever is higher.</p>
+<div class="outcome-block outcome-strong"><p>On a <strong>strong hit</strong>, choose one.</p>
+<ul>
+<li>Shake it off: If your health is greater than 0, suffer -1 momentum in exchange for +1 health.</li>
+<li>Embrace the pain: Take +1 momentum.</li>
+</ul></div>
+<div class="outcome-block outcome-weak"><p>On a <strong>weak hit</strong>, you press on.</p></div>
+<div class="outcome-block outcome-miss"><p>On a <strong>miss</strong>, also suffer -1 momentum. If you are at 0 health, you must mark Wounded or Maimed (if currently unmarked) or roll on the following table.</p></div>
+<div class="table-wrapper">
+      <div class="table-toolbar">
+        <span>📜 Table Reference</span>
+        <button type="button" class="table-roll-btn" title="Roll 1d100 on this table">🎲 Roll Table</button>
+      </div>
+      <table>
+<thead>
+<tr>
+<th>Roll</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1-10</td>
+<td>The harm is mortal. <a href="#suffer-face-death" class="move-ref-link" title="Jump to Face Death">Face Death ↗</a>.</td>
+</tr>
+<tr>
+<td>11-20</td>
+<td>You are dying. You need healing within an hour or two, or <a href="#suffer-face-death" class="move-ref-link" title="Jump to Face Death">Face Death ↗</a>.</td>
+</tr>
+<tr>
+<td>21-35</td>
+<td>You are unconscious and out of action. If left alone, you come back to your senses in an hour or two. If you are vulnerable to a foe not inclined to show mercy, <a href="#suffer-face-death" class="move-ref-link" title="Jump to Face Death">Face Death ↗</a>.</td>
+</tr>
+<tr>
+<td>36-50</td>
+<td>You are reeling and fighting to stay conscious. If you engage in any vigorous activity (such as running or fighting) before taking a breather for a few minutes, roll on this table again (before resolving the other move).</td>
+</tr>
+<tr>
+<td>51-100</td>
+<td>You are battered but still standing.</td>
+</tr>
+</tbody></table>
+    </div>
+
+      </div>
+    </article>
+  
+
+    <article class="move-card" id="suffer-endure-stress" data-category="suffer" data-audience="guide" data-type="reaction" data-search-text="endure stress suffer guide reaction when you face mental shock or despair, suffer -spirit as appropriate to the situation. if you spirit is 0, suffer -momentum equal to any remaining -spirit. then roll +spirit or +heart , whichever is higher. on a **strong hit**, choose one. * shake it off: if your spirit is greater than 0, suffer -1 momentum in exchange for +spirit . * embrace the darkness: take +1 momentum. on a **weak hit**, you press on. on a **miss**, also suffer -1 momentum. if you are at 0 spirit, you must mark shaken or corrupted (if currently unmarked) or roll on the following table. | roll | result | | ------ | ------------------------------------------------------------------------------------------------------- | | 1-10 | you are overwhelmed. face desolation ↗ . | | 11-25 | you give up. abandon a mystery (if possible, one relevant to your current crisis). and pay the price ↗ . | | 26-50 | you give in to a fear or compulsion, and act against your better instincts. | | 51-100 | you persevere. |">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Endure Stress</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="suffer">💔 Suffer & Harm</span>
+            <span class="badge badge-reaction">reaction</span>
+            <span class="badge badge-audience">guide</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="move-trigger">When you face mental shock or despair, suffer -spirit as appropriate to the situation. If you spirit is 0, suffer -momentum equal to any remaining -spirit.</p>
+<p>Then roll <button type="button" class="stat-roll-badge" data-stat="spirit" title="Roll +spirit">+spirit</button> or <button type="button" class="stat-roll-badge" data-stat="heart" title="Roll +heart">+heart</button>, whichever is higher.</p>
+<div class="outcome-block outcome-strong"><p>On a <strong>strong hit</strong>, choose one.</p>
+<ul>
+<li>Shake it off: If your spirit is greater than 0, suffer -1 momentum in exchange for <button type="button" class="stat-roll-badge" data-stat="spirit" title="Roll +spirit">+spirit</button>.</li>
+<li>Embrace the darkness: Take +1 momentum.</li>
+</ul></div>
+<div class="outcome-block outcome-weak"><p>On a <strong>weak hit</strong>, you press on.</p></div>
+<div class="outcome-block outcome-miss"><p>On a <strong>miss</strong>, also suffer -1 momentum. If you are at 0 spirit, you must mark shaken or corrupted (if currently unmarked) or roll on the following table.</p></div>
+<div class="table-wrapper">
+      <div class="table-toolbar">
+        <span>📜 Table Reference</span>
+        <button type="button" class="table-roll-btn" title="Roll 1d100 on this table">🎲 Roll Table</button>
+      </div>
+      <table>
+<thead>
+<tr>
+<th>Roll</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1-10</td>
+<td>You are overwhelmed. <a href="#suffer-face-desolation" class="move-ref-link" title="Jump to Face Desolation">Face Desolation ↗</a>.</td>
+</tr>
+<tr>
+<td>11-25</td>
+<td>You give up. Abandon a Mystery (if possible, one relevant to your current crisis). And <a href="#fate-pay-the-price" class="move-ref-link" title="Jump to Pay the Price">Pay the Price ↗</a>.</td>
+</tr>
+<tr>
+<td>26-50</td>
+<td>You give in to a fear or compulsion, and act against your better instincts.</td>
+</tr>
+<tr>
+<td>51-100</td>
+<td>You persevere.</td>
+</tr>
+</tbody></table>
+    </div>
+
+      </div>
+    </article>
+  
+
+    <article class="move-card" id="suffer-face-a-setback" data-category="suffer" data-audience="guide" data-type="reaction" data-search-text="face a setback suffer guide reaction when your momentum is at its minimum (-6), and you suffer additional -momentum, choose one. * exchange each additional -momentum for any combination of -health, -spirit, or -reputation as appropriate to the circumstances. * envision an event or discovery ( ask the oracle ↗ if unsure) which undermines your progress in a current quest, journey or fight. then, for each additional -momentum, clear 1 unit of progress on that track per its rank.">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Face a Setback</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="suffer">💔 Suffer & Harm</span>
+            <span class="badge badge-reaction">reaction</span>
+            <span class="badge badge-audience">guide</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="move-trigger">When your momentum is at its minimum (-6), and you suffer additional -momentum, choose one.</p>
+<ul>
+<li>Exchange each additional -momentum for any combination of -health, -spirit, or -reputation as appropriate to the circumstances.</li>
+<li>Envision an event or discovery (<a href="#fate-ask-the-oracle" class="move-ref-link" title="Jump to Ask the Oracle">Ask the Oracle ↗</a> if unsure) which undermines your progress in a current quest, journey or fight. Then, for each additional -momentum, clear 1 unit of progress on that track per its rank.</li>
+</ul>
+
+      </div>
+    </article>
+  
+
+    <article class="move-card" id="suffer-face-death" data-category="suffer" data-audience="guide" data-type="reaction" data-search-text="face death suffer guide reaction when you are brought to the brink of death, and glimpse the world beyond, roll +heart . on a **strong hit**, death rejects you. you are cast back into the mortal world. on a **weak hit**, choose one. * you die, but not before making a noble sacrifice. envision your final moments. * death desires something of you in exchange for your life. envision what it wants ( ask the oracle ↗ if unsure), and investigate a mystery ↗ (formidable or extreme) to complete that quest. if you fail to score a hit when you investigate a mystery ↗ , or refuse the quest, you are dead. otherwise, you return to the mortal world and are now cursed. you may only clear the cursed debility by completing the quest. on a **mis**, you are dead.">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Face Death</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="suffer">💔 Suffer & Harm</span>
+            <span class="badge badge-reaction">reaction</span>
+            <span class="badge badge-audience">guide</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="move-trigger">When you are brought to the brink of death, and glimpse the world beyond, roll <button type="button" class="stat-roll-badge" data-stat="heart" title="Roll +heart">+heart</button>.</p>
+<div class="outcome-block outcome-strong"><p>On a <strong>strong hit</strong>, death rejects you. You are cast back into the mortal world.</p></div>
+<div class="outcome-block outcome-weak"><p>On a <strong>weak hit</strong>, choose one.</p>
+<ul>
+<li>You die, but not before making a noble sacrifice. Envision your final moments.</li>
+<li>Death desires something of you in exchange for your life. Envision what it wants (<a href="#fate-ask-the-oracle" class="move-ref-link" title="Jump to Ask the Oracle">Ask the Oracle ↗</a> if unsure), and <a href="#quest-investigate-a-mystery" class="move-ref-link" title="Jump to Investigate a Mystery">Investigate a Mystery ↗</a> (formidable or extreme) to complete that quest. If you fail to score a hit when you <a href="#quest-investigate-a-mystery" class="move-ref-link" title="Jump to Investigate a Mystery">Investigate a Mystery ↗</a>, or refuse the quest, you are dead. Otherwise, you return to the mortal world and are now cursed. You may only clear the cursed debility by completing the quest.</li>
+</ul></div>
+<div class="outcome-block outcome-miss"><p>On a <strong>mis</strong>, you are dead.</p></div>
+
+      </div>
+    </article>
+  
+
+    <article class="move-card" id="suffer-face-desolation" data-category="suffer" data-audience="guide" data-type="reaction" data-search-text="face desolation suffer guide reaction when you are brought to the brink of desolation, roll +heart . on a **strong hit**, you resist and press on. on a **weak hit**, choose one. * your spirit or sanity breaks, but not before you make a noble sacrifice. envision your final moments. * you see a vision of a dreaded event coming to pass. envision that dark future ( ask the oracle ↗ if unsure), and investigate a mystery ↗ (formidable or extreme) to prevent it. if you fail to score a hit when you investigate a mystery ↗ , or refuse the request, you are lost. otherwise, you return to your senses and are now tormented. you may only clear the tormented debility by completing the quest. on a **miss**, you succumb to despair or horror and are lost.">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Face Desolation</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="suffer">💔 Suffer & Harm</span>
+            <span class="badge badge-reaction">reaction</span>
+            <span class="badge badge-audience">guide</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="move-trigger">When you are brought to the brink of desolation, roll <button type="button" class="stat-roll-badge" data-stat="heart" title="Roll +heart">+heart</button>.</p>
+<div class="outcome-block outcome-strong"><p>On a <strong>strong hit</strong>, you resist and press on.</p></div>
+<div class="outcome-block outcome-weak"><p>On a <strong>weak hit</strong>, choose one.</p>
+<ul>
+<li>Your spirit or sanity breaks, but not before you make a noble sacrifice. Envision your final moments.</li>
+<li>You see a vision of a dreaded event coming to pass. Envision that dark future (<a href="#fate-ask-the-oracle" class="move-ref-link" title="Jump to Ask the Oracle">Ask the Oracle ↗</a> if unsure), and <a href="#quest-investigate-a-mystery" class="move-ref-link" title="Jump to Investigate a Mystery">Investigate a Mystery ↗</a> (formidable or extreme) to prevent it. If you fail to score a hit when you <a href="#quest-investigate-a-mystery" class="move-ref-link" title="Jump to Investigate a Mystery">Investigate a Mystery ↗</a>, or refuse the request, you are lost. Otherwise, you return to your senses and are now  tormented. You may only clear the tormented debility by completing the quest.</li>
+</ul></div>
+<div class="outcome-block outcome-miss"><p>On a <strong>miss</strong>, you succumb to despair or horror and are lost.</p></div>
+
+      </div>
+    </article>
+  
+
+    <article class="move-card" id="suffer-find-a-clue" data-category="suffer" data-audience="guide" data-type="reaction" data-search-text="find a clue suffer guide reaction when you make a significant progress in solving a mystery by overcoming a critical obstacle, completing a perilous journey, finding an important clue, defeating a powerful threat, gaining vital support, or acquiring a crucial item, you may mark progress. * troublesome quest: mark 3 progress. * dangerous quest: mark 2 progress. * formidable quest: mark 1 progress. * extreme quest: mark 2 ticks. * epic quest: mark 1 tick.">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Find a Clue</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="suffer">💔 Suffer & Harm</span>
+            <span class="badge badge-reaction">reaction</span>
+            <span class="badge badge-audience">guide</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="move-trigger">When you make a significant progress in solving a mystery by overcoming a critical obstacle, completing a perilous journey, finding an important clue, defeating a powerful threat, gaining vital support, or acquiring a crucial item, you may mark progress.</p>
+<ul>
+<li>Troublesome quest: Mark 3 progress.</li>
+<li>Dangerous quest: Mark 2 progress.</li>
+<li>Formidable quest: Mark 1 progress.</li>
+<li>Extreme quest: Mark 2 ticks.</li>
+<li>Epic quest: Mark 1 tick.</li>
+</ul>
+
+      </div>
+    </article>
+  
+
+    <article class="move-card" id="suffer-get-caught" data-category="suffer" data-audience="guide" data-type="reaction" data-search-text="get caught suffer guide reaction when you get caught and lose reputation, roll +reputation or +cunning , whichever is higher. if your reputation is 0, suffer -momentum equal to any remaining -reputation. on a **strong hit**, pick one: * they are lenient. take -1 momentum for +1 reputation. * it was worth it. take +1 momentum. on a **weak hit**, you are scolded, your house may lose a few points. carry on. on a **miss**, suffer -1 momentum. if you are at 0 rep, you must mark notorious (if current unmarked) or roll on the following table. | roll | result | | ------ | ----------------------------------------------------------------------------- | | 1-10 | you face expulsion, play out the scene with the headmaster. | | 11-25 | your punishment is cruel and time-consuming, mark progress on the time track. | | 26-50 | you get detention and are viewed as a troublemaker. | | 51-100 | you only loose house points. |">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Get Caught</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="suffer">💔 Suffer & Harm</span>
+            <span class="badge badge-reaction">reaction</span>
+            <span class="badge badge-audience">guide</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="move-trigger">When you get caught and lose reputation, roll <button type="button" class="stat-roll-badge" data-stat="reputation" title="Roll +reputation">+reputation</button> or <button type="button" class="stat-roll-badge" data-stat="cunning" title="Roll +cunning">+cunning</button>, whichever is higher. If your reputation is 0, suffer -momentum equal to any remaining -reputation.</p>
+<div class="outcome-block outcome-strong"><p>On a <strong>strong hit</strong>, pick one:</p>
+<ul>
+<li>They are lenient. Take -1 momentum for +1 reputation.</li>
+<li>It was worth it. Take +1 momentum.</li>
+</ul></div>
+<div class="outcome-block outcome-weak"><p>On a <strong>weak hit</strong>, you are scolded, your house may lose a few points. Carry on.</p></div>
+<div class="outcome-block outcome-miss"><p>On a <strong>miss</strong>, suffer -1 momentum. If you are at 0 rep, you must mark Notorious (if current unmarked) or roll on the following table.</p></div>
+<div class="table-wrapper">
+      <div class="table-toolbar">
+        <span>📜 Table Reference</span>
+        <button type="button" class="table-roll-btn" title="Roll 1d100 on this table">🎲 Roll Table</button>
+      </div>
+      <table>
+<thead>
+<tr>
+<th>Roll</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1-10</td>
+<td>You face expulsion, play out the scene with the Headmaster.</td>
+</tr>
+<tr>
+<td>11-25</td>
+<td>Your punishment is cruel and time-consuming, mark progress on the Time Track.</td>
+</tr>
+<tr>
+<td>26-50</td>
+<td>You get detention and are viewed as a troublemaker.</td>
+</tr>
+<tr>
+<td>51-100</td>
+<td>You only loose House Points.</td>
+</tr>
+</tbody></table>
+    </div>
+
+      </div>
+    </article>
+  
+      </div>
+    </section>
+  
+    <section class="category-group" id="cat-group-fate" data-category="fate">
+      <div class="category-header">
+        <h2>🔮 Fate & Oracle</h2>
+        <span class="category-desc">Asking the oracle yes/no questions and paying the price when fortune turns sour.</span>
+        <span class="category-count">2 moves</span>
+      </div>
+      <div class="moves-grid">
+        
+    <article class="move-card" id="fate-ask-the-oracle" data-category="fate" data-audience="guide" data-type="action" data-search-text="ask the oracle fate guide action when you seek to resolve questions, discover details in the world, determine how other characters respond, or trigger encounters or events, you may… * draw a conclusion: decide the answer based on the most interesting and obvious result. * ask a yes/no question: decide the odds of a ‘yes’, and roll on the table below to check the answer. * pick two: envision two options. rate one as ‘likely’, and roll on the table below to see if it is true. if not, it is the other. * spark an idea: brainstorm or use a random prompt. | odds | the answer is &#39;yes&#39; if you roll... | | -------------- | ---------------------------------- | | almost certain | 11 or greater | | likely | 26 or greater | | 50/50 | 51 or greater | | unlikely | 76 or greater | | small chance | 91 or greater | on a match, an extreme result or twist has occured.">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Ask the Oracle</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="fate">🔮 Fate & Oracle</span>
+            <span class="badge badge-action">action</span>
+            <span class="badge badge-audience">guide</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="move-trigger">When you seek to resolve questions, discover details in the world, determine how other characters respond, or trigger encounters or events, you may…</p>
+<ul>
+<li>Draw a conclusion: Decide the answer based on the most interesting and obvious result.</li>
+<li>Ask a yes/no question: Decide the odds of a ‘yes’, and roll on the table below to check the answer.</li>
+<li>Pick two: Envision two options. Rate one as ‘likely’, and roll on the table below to see if it is true. If not, it is the other.</li>
+<li>Spark an idea: Brainstorm or use a random prompt.</li>
+</ul>
+<div class="table-wrapper">
+      <div class="table-toolbar">
+        <span>📜 Table Reference</span>
+        <button type="button" class="table-roll-btn" title="Roll 1d100 on this table">🎲 Roll Table</button>
+      </div>
+      <table>
+<thead>
+<tr>
+<th>Odds</th>
+<th>The answer is &#39;yes&#39; if you roll...</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Almost certain</td>
+<td>11 or greater</td>
+</tr>
+<tr>
+<td>Likely</td>
+<td>26 or greater</td>
+</tr>
+<tr>
+<td>50/50</td>
+<td>51 or greater</td>
+</tr>
+<tr>
+<td>Unlikely</td>
+<td>76 or greater</td>
+</tr>
+<tr>
+<td>Small chance</td>
+<td>91 or greater</td>
+</tr>
+<tr>
+<td>On a match, an extreme result or twist has occured.</td>
+<td></td>
+</tr>
+</tbody></table>
+    </div>
+
+      </div>
+    </article>
+  
+
+    <article class="move-card" id="fate-pay-the-price" data-category="fate" data-audience="guide" data-type="reaction" data-search-text="pay the price fate guide reaction when you suffer the outcome of a move, choose one. * make the most obvious negative outcome happen. * envision two negative outcomes. rate one as &#39;likely&#39; and ask the oracle ↗ using the yes/no table. on a &#39;yes&#39;, make that outcome happen. otherwise, make it the other. * roll on the following table. if you have difficulty interpreting the result to fit the current situation, roll again. | roll | result | | ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | | 1-2 | roll again and apply that result but make it worse. if you roll this result yet again, think of something dreadful that changes the course of your quest ( ask the oracle ↗ if unsure) and make it happen. | | 3-5 | a person or community you trusted loses faith in you, or acts against you. | | 6-9 | a person or community you care about is exposed to danger. | | 10-16 | you are separated from something or someone. | | 17-23 | your action has unintended effect. | | 24-32 | something of value is lost or destroyed. | | 33-41 | the current situation worsens. | | 42-50 | a new danger or foe is revealed. | | 51-59 | it causes a delay or puts you at a disadvantage. | | 60-68 | it is harmful. | | 69-76 | it is stressful. | | 77-85 | a surprising development complicates your quest. | | 86-90 | your reputation suffers. | | 91-94 | it forces you to act against your best intentions. | | 95-98 | a friend, companion, or ally is put in harm&#39;s way (or you are, if alone). | | 99-100 | roll twice more on this table. both results occur. if they are the same result, make it worse. |">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">Pay the Price</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="fate">🔮 Fate & Oracle</span>
+            <span class="badge badge-reaction">reaction</span>
+            <span class="badge badge-audience">guide</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin move to top" aria-label="Pin move">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p class="move-trigger">When you suffer the outcome of a move, choose one.</p>
+<ul>
+<li>Make the most obvious negative outcome happen.</li>
+<li>Envision two negative outcomes. Rate one as &#39;likely&#39; and <a href="#fate-ask-the-oracle" class="move-ref-link" title="Jump to Ask the Oracle">Ask the Oracle ↗</a> using the yes/no table. On a &#39;yes&#39;, make that outcome happen. Otherwise, make it the other.</li>
+<li>Roll on the following table. If you have difficulty interpreting the result to fit the current situation, roll again.</li>
+</ul>
+<div class="table-wrapper">
+      <div class="table-toolbar">
+        <span>📜 Table Reference</span>
+        <button type="button" class="table-roll-btn" title="Roll 1d100 on this table">🎲 Roll Table</button>
+      </div>
+      <table>
+<thead>
+<tr>
+<th>Roll</th>
+<th>Result</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>1-2</td>
+<td>Roll again and apply that result but make it worse. If you roll this result yet again, think of something dreadful that changes the course of your quest (<a href="#fate-ask-the-oracle" class="move-ref-link" title="Jump to Ask the Oracle">Ask the Oracle ↗</a> if unsure) and make it happen.</td>
+</tr>
+<tr>
+<td>3-5</td>
+<td>A person or community you trusted loses faith in you, or acts against you.</td>
+</tr>
+<tr>
+<td>6-9</td>
+<td>A person or community you care about is exposed to danger.</td>
+</tr>
+<tr>
+<td>10-16</td>
+<td>You are separated from something or someone.</td>
+</tr>
+<tr>
+<td>17-23</td>
+<td>Your action has unintended effect.</td>
+</tr>
+<tr>
+<td>24-32</td>
+<td>Something of value is lost or destroyed.</td>
+</tr>
+<tr>
+<td>33-41</td>
+<td>The current situation worsens.</td>
+</tr>
+<tr>
+<td>42-50</td>
+<td>A new danger or foe is revealed.</td>
+</tr>
+<tr>
+<td>51-59</td>
+<td>It causes a delay or puts you at a disadvantage.</td>
+</tr>
+<tr>
+<td>60-68</td>
+<td>It is harmful.</td>
+</tr>
+<tr>
+<td>69-76</td>
+<td>It is stressful.</td>
+</tr>
+<tr>
+<td>77-85</td>
+<td>A surprising development complicates your quest.</td>
+</tr>
+<tr>
+<td>86-90</td>
+<td>Your reputation suffers.</td>
+</tr>
+<tr>
+<td>91-94</td>
+<td>It forces you to act against your best intentions.</td>
+</tr>
+<tr>
+<td>95-98</td>
+<td>A friend, companion, or ally is put in harm&#39;s way (or you are, if alone).</td>
+</tr>
+<tr>
+<td>99-100</td>
+<td>Roll twice more on this table. Both results occur. If they are the same result, make it worse.</td>
+</tr>
+</tbody></table>
+    </div>
+
+      </div>
+    </article>
+  
+      </div>
+    </section>
+  
+  </main>
+
+  <!-- Dice Roller Overlay & Drawer -->
+  <div class="dice-drawer-overlay" id="dice-drawer-overlay"></div>
+  <aside class="dice-drawer" id="dice-drawer" aria-label="Interactive Dice Roller">
+    <div class="dice-header">
+      <h3>🎲 Hogsworn Dice Roller</h3>
+      <button type="button" class="close-drawer-btn" id="close-drawer-btn" title="Close Dice Roller (Esc)">×</button>
+    </div>
+
+    <div class="dice-mode-tabs">
+      <button type="button" class="mode-tab active" data-mode="action">Action Roll (d6 + 2d10)</button>
+      <button type="button" class="mode-tab" data-mode="oracle">Ask Oracle (d100)</button>
+    </div>
+
+    <div class="dice-content">
+      <!-- Action Roll Controls -->
+      <div id="action-dice-controls" class="roller-controls">
+        <div class="control-row">
+          <span class="control-label">Select Character Stat:</span>
+          <div class="stat-pills">
+            <button type="button" class="stat-pill-btn" data-stat="edge" data-val="2">Edge (+2)</button>
+            <button type="button" class="stat-pill-btn" data-stat="heart" data-val="1">Heart (+1)</button>
+            <button type="button" class="stat-pill-btn" data-stat="power" data-val="1">Power (+1)</button>
+            <button type="button" class="stat-pill-btn" data-stat="cunning" data-val="2">Cunning (+2)</button>
+            <button type="button" class="stat-pill-btn" data-stat="wits" data-val="3">Wits (+3)</button>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 1rem; align-items: center; justify-content: space-between;">
+          <div class="control-row">
+            <span class="control-label">Stat Modifier:</span>
+            <div class="stepper-control">
+              <button type="button" class="stepper-btn" id="stat-minus">-</button>
+              <span class="stepper-value" id="stat-val-display">+0</span>
+              <button type="button" class="stepper-btn" id="stat-plus">+</button>
+            </div>
+          </div>
+
+          <div class="control-row">
+            <span class="control-label">Adds / Momentum:</span>
+            <div class="stepper-control">
+              <button type="button" class="stepper-btn" id="adds-minus">-</button>
+              <span class="stepper-value" id="adds-val-display">+0</span>
+              <button type="button" class="stepper-btn" id="adds-plus">+</button>
+            </div>
+          </div>
+        </div>
+
+        <button type="button" class="roll-cta-btn" id="roll-action-btn">
+          ⚡ Roll Action Move
+        </button>
+      </div>
+
+      <!-- Oracle Controls -->
+      <div id="oracle-dice-controls" class="roller-controls" style="display: none;">
+        <span class="control-label">Select Likelihood:</span>
+        <div class="oracle-odds-grid">
+          <button type="button" class="odds-btn" data-odds="almost-certain">
+            <span class="odds-title">Almost Certain</span>
+            <span class="odds-sub">Yes on 11+</span>
+          </button>
+          <button type="button" class="odds-btn" data-odds="likely">
+            <span class="odds-title">Likely</span>
+            <span class="odds-sub">Yes on 26+</span>
+          </button>
+          <button type="button" class="odds-btn active" data-odds="50-50">
+            <span class="odds-title">50 / 50</span>
+            <span class="odds-sub">Yes on 51+</span>
+          </button>
+          <button type="button" class="odds-btn" data-odds="unlikely">
+            <span class="odds-title">Unlikely</span>
+            <span class="odds-sub">Yes on 76+</span>
+          </button>
+          <button type="button" class="odds-btn" data-odds="small-chance" style="grid-column: span 2;">
+            <span class="odds-title">Small Chance</span>
+            <span class="odds-sub">Yes on 91+</span>
+          </button>
+        </div>
+
+        <button type="button" class="roll-cta-btn" id="roll-oracle-btn">
+          🔮 Ask the Oracle (d100)
+        </button>
+      </div>
+
+      <!-- Stage & Output -->
+      <div class="dice-stage">
+        <!-- Action Dice Display -->
+        <div class="dice-row" id="action-dice-row">
+          <div class="die-box">
+            <span class="die-label">Action (d6)</span>
+            <div class="die-face die-action" id="action-die-face">-</div>
+          </div>
+          <span class="vs-divider">VS</span>
+          <div class="die-box">
+            <span class="die-label">Challenge 1</span>
+            <div class="die-face die-challenge" id="challenge-die-1">-</div>
+          </div>
+          <div class="die-box">
+            <span class="die-label">Challenge 2</span>
+            <div class="die-face die-challenge" id="challenge-die-2">-</div>
+          </div>
+        </div>
+
+        <!-- Oracle Dice Display -->
+        <div class="dice-row" id="oracle-dice-row" style="display: none;">
+          <div class="die-box">
+            <span class="die-label">Oracle Roll (d100)</span>
+            <div class="die-face die-action" id="oracle-die-face" style="width: 80px; font-size: 1.8rem;">-</div>
+          </div>
+        </div>
+
+        <div class="action-breakdown" id="action-breakdown">Roll to see outcome...</div>
+        <div class="roll-result-banner" id="roll-result-banner" style="display: none;">-</div>
+        <span class="match-badge" id="match-badge" style="display: none;">✦ MATCH! ✦</span>
+      </div>
+
+      <!-- Roll History -->
+      <div class="control-row">
+        <span class="control-label">Recent Roll Log:</span>
+        <div class="roll-history" id="roll-history-container">
+          <div style="font-size: 0.78rem; color: var(--text-dim); text-align: center; padding: 0.5rem;">No rolls yet.</div>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Toast Notification -->
+  <div class="toast-msg" id="toast-msg">Notification</div>
+
+  <!-- Back to Top Button -->
+  <button type="button" class="back-to-top" id="back-to-top" title="Back to top" aria-label="Back to top">↑</button>
+
+  <script src="app.js"></script>
+</body>
+</html>
