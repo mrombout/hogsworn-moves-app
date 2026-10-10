@@ -368,10 +368,11 @@
       const cardType = card.dataset.type;
       const cardId = card.id;
       const cardSearchText = card.dataset.searchText || '';
+      const isSpell = card.dataset.isSpell === 'true';
 
       const matchCategory = state.selectedCategory === 'all' || cardCat === state.selectedCategory;
-      const matchAudience = state.selectedAudience === 'all' || cardAudience === state.selectedAudience;
-      const matchType = state.selectedType === 'all' || cardType === state.selectedType;
+      const matchAudience = isSpell || state.selectedAudience === 'all' || cardAudience === state.selectedAudience;
+      const matchType = isSpell || state.selectedType === 'all' || cardType === state.selectedType;
       const matchPinned = !state.showPinnedOnly || state.pinnedIds.has(cardId);
       const matchSearch = !isSearching || cardSearchText.includes(state.searchQuery);
 
@@ -387,14 +388,14 @@
       group.classList.toggle('hidden', visibleInGroup === 0);
       const countSpan = group.querySelector('.category-count');
       if (countSpan) {
-        countSpan.textContent = `${visibleInGroup} moves`;
+        countSpan.textContent = `${visibleInGroup} ${group.dataset.itemLabel || 'moves'}`;
       }
     });
 
     // Update count indicator
     if (el.resultsCount) {
       const total = el.moveCards.length;
-      el.resultsCount.textContent = `Showing ${visibleCount} of ${total} moves`;
+      el.resultsCount.textContent = `Showing ${visibleCount} of ${total} entries`;
     }
 
     // Show/hide pinned section

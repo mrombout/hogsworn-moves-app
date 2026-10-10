@@ -1,13 +1,14 @@
 # ⚡ Hogsworn Moves Single-Page App
 
-A fast, user-friendly single-page reference web application for all **Hogsworn** (Harry Potter themed Ironsworn) TTRPG moves. Built for players and guides to quickly look up rules, roll dice, and refer to moves at the game table.
+A fast, user-friendly single-page reference web application for **Hogsworn** (Harry Potter themed Ironsworn) TTRPG moves and spells. Built for players and guides to quickly look up rules, roll dice, and refer to moves and spells at the game table.
 
 ---
 
 ## 🌟 Key Features
 
 - **⚡ Instant Real-Time Search**: Search through all 47 moves by title, stat (`+heart`, `+cunning`), trigger condition, or rule keywords. Press `/` anywhere to focus search.
-- **🪄 Category Tabs**: Filter moves across all 8 rule categories:
+- **✨ Spell Reference**: Browse and search spells by incantation, summary, and spell type, with the year learned shown on each spell.
+- **🪄 Category Tabs**: Filter moves across all 8 rule categories or browse the spell catalogue:
   - 🧭 **Adventure** (13 moves): Cast, Face Danger, Study, Gather Information, etc.
   - ⚔️ **Combat** (7 moves): Battle, Clash, Strike, Spell Combat, End the Fight, etc.
   - 🏰 **Hogwarts Life** (3 moves): Attend Class, Brew a Potion, Go to Hospital Wing.
@@ -43,7 +44,7 @@ A fast, user-friendly single-page reference web application for all **Hogsworn**
 ```bash
 npm run build
 ```
-This reads all markdown files from `../Rules/Moves/` (with local fallback to `./data/moves/`), compiles them, and generates self-contained static files in `dist/`.
+This reads all markdown files from `../Rules/Moves/` (with local fallback to `./data/moves/`) and spell data from `./data/spells/`, then generates self-contained static files in `dist/`.
 
 ### 2. Preview the App
 ```bash
@@ -90,7 +91,8 @@ App/
 │   ├── style.css         # Complete Hogwarts-themed stylesheet
 │   └── app.js            # Interactivity (search, filters, dice roller, tables)
 ├── data/
-│   └── moves/            # Local copy of markdown moves for standalone Docker builds
+│   ├── moves/            # Local copy of markdown moves for standalone Docker builds
+│   └── spells/           # Spell reference markdown files
 └── dist/                 # Generated static website ready to serve
     ├── index.html
     ├── style.css
@@ -100,8 +102,8 @@ App/
 
 ---
 
-## 🔄 Updating Moves
+## 🔄 Updating Moves & Spells
 
-When moves in `Rules/Moves/` are updated or added in Obsidian:
+When moves in `Rules/Moves/` or spell files in `data/spells/` are updated or added:
 1. Run `npm run build` locally, or re-run `docker compose up --build`.
-2. The generator will automatically re-parse all YAML frontmatter, markdown text, tables, and regenerate the site in `dist/`.
+2. The generator will automatically re-parse the move and spell data and regenerate the site in `dist/`.

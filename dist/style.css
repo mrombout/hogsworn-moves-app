@@ -628,6 +628,7 @@ button {
 .move-card[data-category="scene_challenge"]::before { background: var(--cat-scene); }
 .move-card[data-category="suffer"]::before { background: var(--cat-suffer); }
 .move-card[data-category="fate"]::before { background: var(--cat-fate); }
+.move-card[data-category="spells"]::before { background: var(--gold-primary); }
 
 /* Card Header */
 .card-header {
@@ -683,6 +684,7 @@ button {
 .badge-cat[data-category="scene_challenge"] { color: var(--cat-scene); }
 .badge-cat[data-category="suffer"] { color: var(--cat-suffer); }
 .badge-cat[data-category="fate"] { color: var(--cat-fate); }
+.badge-cat[data-category="spells"] { color: var(--gold-primary); }
 
 .badge-action {
   background-color: rgba(56, 189, 248, 0.1);
@@ -697,6 +699,15 @@ button {
 .badge-audience {
   background-color: var(--bg-surface-hover);
   color: var(--text-dim);
+}
+
+.badge-spell-type {
+  color: var(--text-muted);
+}
+
+.spell-year {
+  color: var(--text-dim);
+  font-size: 0.8rem;
 }
 
 /* Card Action Buttons (Pin, Copy, Collapse) */

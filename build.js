@@ -58,6 +58,12 @@ const CATEGORIES = {
     name: 'Fate & Oracle',
     icon: '🔮',
     description: 'Asking the oracle yes/no questions and paying the price when fortune turns sour.'
+  },
+  spells: {
+    id: 'spells',
+    name: 'Spells',
+    icon: '✨',
+    description: 'Incantations, spell types, summaries, and the year each spell is learned.'
   }
 };
 
@@ -252,6 +258,40 @@ for (const m of rawMoves) {
   });
 }
 
+// Parse spell reference data from local Markdown files
+const spellsDir = path.resolve(__dirname, 'data/spells');
+if (!fs.existsSync(spellsDir)) {
+  console.error('Error: Could not find spell data directory at data/spells!');
+  process.exit(1);
+}
+
+const spellFilePaths = findMarkdownFiles(spellsDir);
+const parsedSpells = spellFilePaths.map(filePath => {
+  const relPath = path.relative(spellsDir, filePath);
+  const title = path.basename(filePath, '.md');
+  const content = fs.readFileSync(filePath, 'utf8');
+  let frontmatter = {};
+
+  if (content.startsWith('---')) {
+    const parts = content.split('---');
+    if (parts.length >= 3) {
+      try {
+        frontmatter = yaml.load(parts[1]) || {};
+      } catch (e) {
+        console.warn(`YAML parse warning in ${relPath}: ${e.message}`);
+      }
+    }
+  }
+
+  const spellType = frontmatter['Spell Type'] == null ? '' : String(frontmatter['Spell Type']).trim();
+  const summary = frontmatter.Summary == null ? '' : String(frontmatter.Summary).trim();
+  const yearLearned = frontmatter['Year Learned'] == null ? '' : String(frontmatter['Year Learned']).trim();
+  const id = ('spell-' + title.toLowerCase().replace(/[^a-z0-9]+/g, '-')).replace(/^-|-$/g, '');
+  const plainText = `${title} ${spellType} ${summary} ${yearLearned}`.toLowerCase().replace(/\s+/g, ' ');
+
+  return { id, title, categoryKey: 'spells', spellType, summary, yearLearned, plainText };
+}).sort((a, b) => a.title.localeCompare(b.title));
+
 // Sort moves: by category order, then title
 const catOrder = Object.keys(CATEGORIES);
 parsedMoves.sort((a, b) => {
@@ -263,12 +303,39 @@ parsedMoves.sort((a, b) => {
 // Group moves by category
 const groupedMoves = {};
 for (const catKey of catOrder) {
-  groupedMoves[catKey] = parsedMoves.filter(m => m.categoryKey === catKey);
+  groupedMoves[catKey] = catKey === 'spells'
+    ? parsedSpells
+    : parsedMoves.filter(m => m.categoryKey === catKey);
 }
 
 // 3. Generate HTML markup
 function renderMoveCard(m) {
   const cat = CATEGORIES[m.categoryKey];
+  if (m.categoryKey === 'spells') {
+    return `
+    <article class="move-card spell-card" id="${escapeHtml(m.id)}" data-category="spells" data-is-spell="true" data-search-text="${escapeHtml(m.plainText)}">
+      <div class="card-header">
+        <div class="card-title-group">
+          <h3 class="card-title">${escapeHtml(m.title)}</h3>
+          <div class="card-badges">
+            <span class="badge badge-cat" data-category="spells">${cat.icon} ${cat.name}</span>
+            <span class="badge badge-spell-type">${escapeHtml(m.spellType || 'Spell type unspecified')}</span>
+          </div>
+        </div>
+        <div class="card-actions">
+          <button type="button" class="card-btn pin-btn" title="Pin spell to top" aria-label="Pin spell">☆</button>
+          <button type="button" class="card-btn copy-link-btn" title="Copy direct link" aria-label="Copy spell link">🔗</button>
+          <button type="button" class="card-btn collapse-btn" title="Toggle card content" aria-label="Toggle content">▾</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <p>${escapeHtml(m.summary || 'No summary available.')}</p>
+${m.yearLearned ? `        <p class="spell-year">Learned in Year ${escapeHtml(m.yearLearned)}</p>` : ''}
+      </div>
+    </article>
+  `.trim();
+  }
+
   return `
     <article class="move-card" id="${m.id}" data-category="${m.categoryKey}" data-audience="${m.audience}" data-type="${m.type}" data-search-text="${escapeHtml(m.plainText)}">
       <div class="card-header">
@@ -306,28 +373,28 @@ function escapeHtml(str) {
 let categorySectionsHtml = '';
 for (const catKey of catOrder) {
   const cat = CATEGORIES[catKey];
-  const moves = groupedMoves[catKey] || [];
-  if (moves.length === 0) continue;
+  const entries = groupedMoves[catKey] || [];
+  if (entries.length === 0) continue;
 
-  const cardsHtml = moves.map(renderMoveCard).join('\n');
+  const cardsHtml = entries.map(renderMoveCard).join('\n');
 
   categorySectionsHtml += `
-    <section class="category-group" id="cat-group-${catKey}" data-category="${catKey}">
+    <section class="category-group" id="cat-group-${catKey}" data-category="${catKey}" data-item-label="${catKey === 'spells' ? 'spells' : 'moves'}">
       <div class="category-header">
         <h2>${cat.icon} ${cat.name}</h2>
         <span class="category-desc">${cat.description}</span>
-        <span class="category-count">${moves.length} moves</span>
+        <span class="category-count">${entries.length} ${catKey === 'spells' ? 'spells' : 'moves'}</span>
       </div>
       <div class="moves-grid">
         ${cardsHtml}
       </div>
     </section>
-  `;
+  `.trim();
 }
 
 // Build category filter tabs
 const categoryTabsHtml = [
-  `<button type="button" class="cat-tab active" data-category="all">✨ All Moves <span class="tab-badge">${parsedMoves.length}</span></button>`,
+  `<button type="button" class="cat-tab active" data-category="all">✨ All Moves & Spells <span class="tab-badge">${parsedMoves.length + parsedSpells.length}</span></button>`,
   ...catOrder.map(catKey => {
     const cat = CATEGORIES[catKey];
     const count = (groupedMoves[catKey] || []).length;
@@ -341,8 +408,8 @@ const fullHtml = `<!DOCTYPE html>
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Hogsworn Moves | Hogwarts TTRPG Rulebook & Reference</title>
-  <meta name="description" content="Quick-reference single-page app for all Hogsworn and Ironsworn TTRPG moves. Search, roll dice, and refer to rules at the table.">
+  <title>Hogsworn Moves & Spells | Hogwarts TTRPG Rulebook & Reference</title>
+  <meta name="description" content="Quick-reference single-page app for Hogsworn and Ironsworn moves and spells. Search, roll dice, and refer to rules at the table.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Fira+Code:wght@500;600&display=swap" rel="stylesheet">
@@ -356,7 +423,7 @@ const fullHtml = `<!DOCTYPE html>
         <div class="brand-icon">⚡</div>
         <div class="brand-text">
           <h1>Hogsworn</h1>
-          <p>Hogwarts TTRPG Moves Compendium</p>
+          <p>Hogwarts TTRPG Moves & Spells Compendium</p>
         </div>
       </a>
 
@@ -382,7 +449,7 @@ const fullHtml = `<!DOCTYPE html>
     <!-- Search Bar -->
     <div class="search-wrapper">
       <span class="search-icon">🔍</span>
-      <input type="text" class="search-input" id="search-input" placeholder="Search moves by title, roll, trigger, or rules (e.g. 'danger', 'potion', '+heart')..." autocomplete="off" spellcheck="false">
+      <input type="text" class="search-input" id="search-input" placeholder="Search moves by title, roll, trigger, or rules; spells by name, summary, or type..." autocomplete="off" spellcheck="false">
       <button type="button" class="search-clear-btn" id="search-clear" title="Clear search">×</button>
       <span class="search-shortcut">/</span>
     </div>
@@ -422,7 +489,7 @@ const fullHtml = `<!DOCTYPE html>
 
   <!-- Status Bar -->
   <div class="status-bar">
-    <span id="results-count">Showing ${parsedMoves.length} of ${parsedMoves.length} moves</span>
+    <span id="results-count">Showing ${parsedMoves.length + parsedSpells.length} of ${parsedMoves.length + parsedSpells.length} entries</span>
     <button type="button" class="reset-filters-btn" id="reset-filters-btn">↺ Reset Filters</button>
   </div>
 
@@ -592,5 +659,6 @@ fs.writeFileSync(
 
 console.log(`\n🎉 Build Complete!`);
 console.log(` - Total moves compiled: ${parsedMoves.length}`);
+console.log(` - Total spells compiled: ${parsedSpells.length}`);
 console.log(` - Output directory: ${distDir}`);
 console.log(` - Files generated: index.html, style.css, app.js, moves.json\n`);

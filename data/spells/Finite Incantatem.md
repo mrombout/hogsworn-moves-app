@@ -1,0 +1,5 @@
+---
+Spell Type: Defensive and Restorative spells
+Year Learned: "5"
+Summary: Counter-Spell
+---
